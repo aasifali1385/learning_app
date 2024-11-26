@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:learning_app/colors.dart';
@@ -15,85 +16,90 @@ class _CoursesState extends State<Courses> {
     return Stack(
       children: [
         Container(
-          height: 300,
+          height: 200,
           decoration: BoxDecoration(
-            gradient: LinearGradient(colors: MyColors.gradient1),
+            gradient: LinearGradient(colors: MyColors.gradient2),
           ),
         ),
         /////////////////
-        Column(
-          children: [
-            const Padding(
-              padding: EdgeInsets.all(30),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  // SizedBox(height: 10),
-                  Text('Welcome to', style: TextStyle(fontSize: 30)),
-                  // const SizedBox(height: 16),
-                  // searchBar()
-                ],
-              ),
-            ),
-            ////////////////////////////////
-            Expanded(
-              child: Card(
-                  margin: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-                  elevation: 4,
-                  clipBehavior: Clip.antiAlias,
-                  color: Colors.white,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(20)),
-                  ),
-                  child: MasonryGridView.count(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 9,
+        SafeArea(
+          child: Column(
+            children: [
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 30),
+                child: Row(
+                  children: [
+                    // Icon(
+                    //   Icons.school_outlined,
+                    //   color: Colors.white,
+                    //   size: 34,
+                    // ),
+                    SizedBox(width: 10),
+                    Text(
+                      'Curates',
+                      style: TextStyle(
+                        fontSize: 26,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 6,
-                    crossAxisSpacing: 6,
-                    itemCount: 10,
-                    itemBuilder: (context, index) {
-                      return Card(
-                        clipBehavior: Clip.antiAlias,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18)),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            gradient:
-                                LinearGradient(colors: MyColors.gradient1),
+                  ],
+                ),
+              ),
+              ////////////////////////////////
+              Expanded(
+                child: Card(
+                    margin: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+                    elevation: 4,
+                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                    color: Colors.white,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(20)),
+                    ),
+                    child: MasonryGridView.count(
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 9),
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 2,
+                      crossAxisSpacing: 2,
+                      itemCount: 20,
+                      itemBuilder: (context, index) {
+                        return Card(
+                          clipBehavior: Clip.antiAlias,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(14)),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              gradient:
+                                  LinearGradient(colors: MyColors.gradient2),
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 14, vertical: 10),
+                            // Varying heights for tiles
+                            child: const Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'UI/UX Designer ',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18),
+                                ),
+                                Text(
+                                  'Product Designer Fellowship',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 18),
+                                ),
+                              ],
+                            ),
                           ),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 14,
-                            vertical: 10,
-                          ),
-                          // Varying heights for tiles
-                          child: const Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'UI/UX Designer ',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18),
-                              ),
-                              Text(
-                                'Product Designer Fellowship',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 18),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  )),
-            ),
-          ],
+                        );
+                      },
+                    )),
+              ),
+            ],
+          ),
         ),
       ],
     );
