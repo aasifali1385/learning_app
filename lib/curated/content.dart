@@ -11,10 +11,11 @@ class _ContentState extends State<Content> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+
         padding: const EdgeInsets.all(6),
-        itemCount: 3,
+        itemCount: 15,
         itemBuilder: (BuildContext context, int index) {
-          return Text('data $index');
+          return Text('data $index\n\n\n\n');
         });
   }
 }
