@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
@@ -17,16 +16,18 @@ class _TestState extends State<Test> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: MasonryGridView.count(
-          crossAxisCount: 4,
+          crossAxisCount: 2,
           mainAxisSpacing: 4,
           crossAxisSpacing: 4,
+          itemCount: 10,
           itemBuilder: (context, index) {
-            return Tile(
-              index: index,
-              extent: (index % 5 + 1) * 100,
+            return Container(
+              color: Colors.teal,
+              height: (index % 5 + 1) * 100, // Varying heights for tiles
+              child: Center(child: Text('Tile $index')),
             );
           },
-        );
+        )
     );
 
     return GridView.builder(

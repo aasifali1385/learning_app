@@ -25,29 +25,27 @@ class _HomeState extends State<Home> {
         ),
         Column(
           children: [
-            const Expanded(
-                flex: 2,
-                child: Padding(
-                  padding: EdgeInsets.all(50),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      SizedBox(height: 30),
-                      Text(
-                        'Welcome to',
-                        style: TextStyle(fontSize: 30),
-                      ),
-                      Text(
-                        'Henry Harvin',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 40),
-                      ),
-                      // const SizedBox(height: 16),
-                      // searchBar()
-                    ],
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 40),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  SizedBox(height: 30),
+                  Text(
+                    'Welcome to',
+                    style: TextStyle(fontSize: 30),
                   ),
-                )),
+                  Text(
+                    'Henry Harvin',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 40),
+                  ),
+                  // const SizedBox(height: 16),
+                  // searchBar()
+                ],
+              ),
+            ),
             Expanded(
               flex: 4,
               child: Card(

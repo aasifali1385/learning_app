@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:learning_app/colors.dart';
 
 class Courses extends StatefulWidget {
   const Courses({super.key});
@@ -14,66 +16,82 @@ class _CoursesState extends State<Courses> {
       children: [
         Container(
           height: 300,
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(colors: [
-              Color(0xffcee6e8),
-              Color(0xffebf4f4),
-            ]),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(colors: MyColors.gradient1),
           ),
         ),
         /////////////////
         Column(
           children: [
-            const Expanded(
-                flex: 2,
-                child: Padding(
-                  padding: EdgeInsets.all(50),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      SizedBox(height: 30),
-                      Text(
-                        'Welcome to',
-                        style: TextStyle(fontSize: 30),
-                      ),
-                      Text(
-                        'Henry Harvin',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 40),
-                      ),
-                      // const SizedBox(height: 16),
-                      // searchBar()
-                    ],
-                  ),
-                )),
+            const Padding(
+              padding: EdgeInsets.all(30),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // SizedBox(height: 10),
+                  Text('Welcome to', style: TextStyle(fontSize: 30)),
+                  // const SizedBox(height: 16),
+                  // searchBar()
+                ],
+              ),
+            ),
             ////////////////////////////////
             Expanded(
-              flex: 4,
               child: Card(
-                margin: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-                elevation: 4,
-                color: Colors.white,
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
-                ),
-                child: GridView.builder(
-                  itemCount: 10,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: 3 / 4,
-                    mainAxisSpacing: 4,
-                    crossAxisSpacing: 4,
+                  margin: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+                  elevation: 4,
+                  clipBehavior: Clip.antiAlias,
+                  color: Colors.white,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(20)),
                   ),
-                  itemBuilder: (BuildContext context, int index) {
-                    return Container(
-                      color: Colors.green,
-                      height: 100,
-                      // width: 100,
-                    );
-                  },
-                ),
-              ),
+                  child: MasonryGridView.count(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 9,
+                    ),
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 6,
+                    crossAxisSpacing: 6,
+                    itemCount: 10,
+                    itemBuilder: (context, index) {
+                      return Card(
+                        clipBehavior: Clip.antiAlias,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18)),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            gradient:
+                                LinearGradient(colors: MyColors.gradient1),
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 14,
+                            vertical: 10,
+                          ),
+                          // Varying heights for tiles
+                          child: const Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'UI/UX Designer ',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18),
+                              ),
+                              Text(
+                                'Product Designer Fellowship',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 18),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  )),
             ),
           ],
         ),
