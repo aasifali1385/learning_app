@@ -58,7 +58,8 @@ class _CoursesState extends State<Courses> {
                           BorderRadius.vertical(top: Radius.circular(20)),
                     ),
                     child: MasonryGridView.count(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 9),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 9),
                       crossAxisCount: 2,
                       mainAxisSpacing: 2,
                       crossAxisSpacing: 2,
@@ -69,28 +70,32 @@ class _CoursesState extends State<Courses> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(14)),
                           child: Container(
-                            decoration: BoxDecoration(
-                              gradient:
-                                  LinearGradient(colors: MyColors.gradient2),
+                            decoration: const BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [],
+                              ),
                             ),
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 14, vertical: 10),
-                            // Varying heights for tiles
                             child: const Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'UI/UX Designer ',
+                                  'Product Design',
                                   style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18),
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                  ),
                                 ),
                                 Text(
                                   'Product Designer Fellowship',
                                   style: TextStyle(
-                                      color: Colors.white, fontSize: 18),
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                  ),
                                 ),
+                                ////////////////
                               ],
                             ),
                           ),
