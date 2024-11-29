@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -11,6 +12,21 @@ class Courses extends StatefulWidget {
 }
 
 class _CoursesState extends State<Courses> {
+  var curates = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    final db = FirebaseFirestore.instance;
+
+    db.collection('Curates').get().then((coll) {
+      // print('Data=>${coll.docs.first['name']}');
+      curates = coll.docs;
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -63,43 +79,9 @@ class _CoursesState extends State<Courses> {
                       crossAxisCount: 2,
                       mainAxisSpacing: 2,
                       crossAxisSpacing: 2,
-                      itemCount: 20,
+                      itemCount: curates.length,
                       itemBuilder: (context, index) {
-                        return Card(
-                          clipBehavior: Clip.antiAlias,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(14)),
-                          child: Container(
-                            decoration: const BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [],
-                              ),
-                            ),
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 14, vertical: 10),
-                            child: const Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Product Design',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                  ),
-                                ),
-                                Text(
-                                  'Product Designer Fellowship',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                  ),
-                                ),
-                                ////////////////
-                              ],
-                            ),
-                          ),
-                        );
+                        return curate(curates[index]);
                       },
                     )),
               ),
@@ -109,6 +91,44 @@ class _CoursesState extends State<Courses> {
       ],
     );
   }
+}
+
+Widget curate(curate) {
+  return Card(
+    clipBehavior: Clip.antiAlias,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+    child: Container(
+      decoration: BoxDecoration(
+          // gradient: LinearGradient(colors: MyColors.gradient1),
+          ),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            curate['name'],
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            curate['desc'],
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+            ),
+          ),
+          const SizedBox(height: 10),
+          // Image.network(curate['image'])
+
+          ////////////////
+        ],
+      ),
+    ),
+  );
 }
 
 Widget item1() {

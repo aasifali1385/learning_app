@@ -3,7 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'dashboard/dashboard.dart';
+import 'package:learning_app/dashboard/dashboard.dart';
 import 'firebase_options.dart';
 
 void main() {
@@ -37,18 +37,14 @@ class _MyAppState extends State<MyApp> {
 
     DatabaseReference ref = database.ref('learniverse/123');
 
-    await ref.set({
-      "name":'Asif',
-      'designation':'Application Developer'
-    });
+    await ref.set({"name": 'Asif', 'designation': 'Application Developer'});
 
     final db = FirebaseFirestore.instance;
-    final cls = await db.collection('Curates').get().then((v){
+    final cls = await db.collection('Curates').get().then((v) {
       print('Data=>${v.docs.first['name']}');
     });
 
-    
-
+    ///////////////
   }
 
   // This widget is the root of your application.
@@ -61,9 +57,7 @@ class _MyAppState extends State<MyApp> {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const Scaffold(
-        body: Text('data'),
-      ),
+      home: const Dashboard(),
     );
   }
 }
