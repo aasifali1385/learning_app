@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:learning_app/colors.dart';
+import 'package:learning_app/component.dart';
 
 class Courses extends StatefulWidget {
   const Courses({super.key});
@@ -12,7 +13,7 @@ class Courses extends StatefulWidget {
 }
 
 class _CoursesState extends State<Courses> {
-  var curates = [];
+  var courses = [];
 
   @override
   void initState() {
@@ -22,7 +23,7 @@ class _CoursesState extends State<Courses> {
 
     db.collection('Curates').get().then((coll) {
       // print('Data=>${coll.docs.first['name']}');
-      curates = coll.docs;
+      courses = coll.docs;
       setState(() {});
     });
   }
@@ -33,8 +34,8 @@ class _CoursesState extends State<Courses> {
       children: [
         Container(
           height: 200,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(colors: MyColors.gradient2),
+          decoration: const BoxDecoration(
+            gradient: MyColors.gradient2,
           ),
         ),
         /////////////////
@@ -52,10 +53,10 @@ class _CoursesState extends State<Courses> {
                     // ),
                     SizedBox(width: 10),
                     Text(
-                      'Curates',
+                      'Courses',
                       style: TextStyle(
                         fontSize: 26,
-                        color: Colors.white,
+                        color: Colors.black,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -75,13 +76,34 @@ class _CoursesState extends State<Courses> {
                     ),
                     child: MasonryGridView.count(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 9),
+                        horizontal: 8,
+                        vertical: 9,
+                      ),
                       crossAxisCount: 2,
                       mainAxisSpacing: 2,
                       crossAxisSpacing: 2,
-                      itemCount: curates.length,
+                      itemCount: courses.length,
                       itemBuilder: (context, index) {
-                        return curate(curates[index]);
+                        List<Color> backColors = [];
+                        for (var code in courses[index]['colors']) {
+                          backColors.add(Color(int.parse(code, radix: 16)));
+                        }
+                        return Card(
+                          elevation: 4,
+                          clipBehavior: Clip.antiAlias,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(14)),
+                          child: Container(
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                    colors: backColors),
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 14, vertical: 10),
+                              child: courseContent(courses[index])),
+                        );
                       },
                     )),
               ),
@@ -91,44 +113,6 @@ class _CoursesState extends State<Courses> {
       ],
     );
   }
-}
-
-Widget curate(curate) {
-  return Card(
-    clipBehavior: Clip.antiAlias,
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-    child: Container(
-      decoration: BoxDecoration(
-          // gradient: LinearGradient(colors: MyColors.gradient1),
-          ),
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            curate['name'],
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            curate['desc'],
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-            ),
-          ),
-          const SizedBox(height: 10),
-          // Image.network(curate['image'])
-
-          ////////////////
-        ],
-      ),
-    ),
-  );
 }
 
 Widget item1() {

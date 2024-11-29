@@ -1,4 +1,11 @@
+import 'dart:ffi';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:learning_app/colors.dart';
+import '../component.dart';
+import '../curated/details.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -8,127 +15,146 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  var courses = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    final db = FirebaseFirestore.instance;
+
+    db.collection('Curates').get().then((coll) {
+      setState(() {
+        courses = coll.docs;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-                // begin: Alignment.topCenter,
-                // end: Alignment.bottomCenter,
-                colors: [
-                  Color(0xffcee6e8),
-                  Color(0xffebf4f4),
-                ]),
-          ),
+          height: 300,
+          decoration: const BoxDecoration(gradient: MyColors.gradient2),
         ),
-        Column(
-          children: [
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 40),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  SizedBox(height: 30),
-                  Text(
-                    'Welcome to',
-                    style: TextStyle(fontSize: 30),
-                  ),
-                  Text(
-                    'Henry Harvin',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 40),
-                  ),
-                  // const SizedBox(height: 16),
-                  // searchBar()
-                ],
+        //////////////////////
+        SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Padding(
+                padding: EdgeInsets.only(left: 30.0, top: 40),
+                child: Text(
+                  'Welcome to',
+                  style: TextStyle(fontSize: 24),
+                ),
               ),
-            ),
-            Expanded(
-              flex: 4,
-              child: Card(
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 30),
+                child: Text(
+                  'Learniverse',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 36),
+                ),
+              ),
+              const SizedBox(height: 20),
+              const Expanded(child: SizedBox()),
+              Card(
                 margin: const EdgeInsets.fromLTRB(0, 8, 0, 0),
                 elevation: 4,
                 color: Colors.white,
                 shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Padding(
-                      padding: EdgeInsets.fromLTRB(30, 30, 30, 10),
-                      child: Text('Curated For You',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 19)),
-                    ),
-
-                    Expanded(
-                      flex: 2,
-                      child: ListView(
-                        padding: const EdgeInsets.symmetric(horizontal: 22),
-                        scrollDirection: Axis.horizontal,
-                        shrinkWrap: true,
-                        children: [
-                          item1(),
-                          item1(),
-                          item1(),
-                        ],
+                      padding: EdgeInsets.fromLTRB(30, 30, 30, 0),
+                      child: Text(
+                        'Courses For You',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 20),
                       ),
                     ),
 
-                    const Padding(
-                      padding: EdgeInsets.fromLTRB(30, 20, 30, 10),
-                      child: Text('Curated By Category',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 19)),
+                    SizedBox(
+                      height: MediaQuery.sizeOf(context).width * 0.85,
+                      child: ListView.builder(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          scrollDirection: Axis.horizontal,
+                          itemCount: courses.length,
+                          itemBuilder: (context, index) {
+                            List<Color> backColors = [];
+                            for (var code in courses[index]['colors']) {
+                              backColors.add(Color(int.parse(code, radix: 16)));
+                            }
+                            return Card(
+                              elevation: 4,
+                              margin: const EdgeInsets.all(8),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20)),
+                              clipBehavior: Clip.antiAlias,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    begin: Alignment.bottomCenter,
+                                    end: Alignment.topCenter,
+                                    colors: backColors,
+                                  ),
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 14, vertical: 10),
+                                child: InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>  Details(colors:backColors),
+                                      ),
+                                    );
+                                  },
+                                  child: AspectRatio(
+                                    aspectRatio: 1 / 1.77,
+                                    child: courseContent(courses[index]),
+                                  ),
+                                ),
+                              ),
+                            );
+                          }),
                     ),
 
-                    Expanded(
-                        flex: 1,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 26),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              item2(),
-                              item2(),
-                              item2(),
-                              item2(),
-                            ],
-                          ),
-                        )),
+                    const Padding(
+                      padding: EdgeInsets.fromLTRB(30, 20, 20, 8),
+                      child: Text(
+                        'Courses By Category',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),
 
-                    //////////////////////////
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        category(Icons.show_chart_rounded, 'Investing'),
+                        category(Icons.candlestick_chart_rounded, 'Trading'),
+                        category(Icons.code_rounded, 'Coding'),
+                        category(Icons.design_services_rounded, 'Designing')
+                      ],
+                    ),
+                    const SizedBox(height: 30),
+                    //////////////////////////////
                   ],
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ],
     );
   }
-}
-
-Widget item1() {
-  return Card(
-    elevation: 4,
-    margin: const EdgeInsets.all(8),
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-    clipBehavior: Clip.antiAlias,
-    child: Container(
-      decoration: const BoxDecoration(
-          // gradient: LinearGradient(
-          //     begin: Alignment.topRight,
-          //     end: Alignment.bottomLeft,
-          //     colors: [Color(0xffbf0160), Color(0xff530270)]),
-          ),
-      child: const AspectRatio(aspectRatio: 1 / 1.4, child: Column()),
-    ),
-  );
 }
 
 Widget searchBar() {
@@ -162,8 +188,8 @@ Widget searchBar() {
   );
 }
 
-Widget item2() {
-  return const Column(
+Widget category(icon, title) {
+  return Column(
     children: [
       Card(
         color: Colors.black,
@@ -172,21 +198,21 @@ Widget item2() {
         child: Padding(
           padding: EdgeInsets.all(10),
           child: Icon(
-            Icons.cloud_rounded,
-            size: 40,
+            icon,
+            size: 38,
             color: Colors.white,
             // shadows: [Shadow(offset: Offset(2, 2), color: Colors.black26)],
           ),
         ),
       ),
       Text(
-        'Cloud Cloud',
+        title,
         textAlign: TextAlign.center,
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
         style: TextStyle(
-          fontSize: 15,
-        ),
+            // fontSize: 15,
+            fontWeight: FontWeight.w600),
       ),
     ],
   );

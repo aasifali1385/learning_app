@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'curates.dart';
+import 'courses.dart';
 import 'home.dart';
 
 class Dashboard extends StatefulWidget {
@@ -11,7 +11,7 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  var _selected = 1;
+  var _selected = 0;
   final _screens = [const Home(), const Courses()];
 
   @override
