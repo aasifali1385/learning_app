@@ -41,29 +41,30 @@ class _DetailsState extends State<Details> with SingleTickerProviderStateMixin {
             child: Column(
               children: [
                 Expanded(
-                    flex: 1,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            const SizedBox(width: 10),
-                            IconButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              style: IconButton.styleFrom(
-                                backgroundColor: const Color(0x4DFFFFFF),
-                              ),
-                              icon: const Icon(
-                                Icons.arrow_back_ios_new_rounded,
-                                color: Colors.white,
-                              ),
+                  flex: 1,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          const SizedBox(width: 10),
+                          IconButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            style: IconButton.styleFrom(
+                              backgroundColor: const Color(0x4DFFFFFF),
                             ),
-                          ],
-                        ),
-                      ],
-                    )),
+                            icon: const Icon(
+                              Icons.arrow_back_ios_new_rounded,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
                 Expanded(
                   flex: 4,
                   child: Card(

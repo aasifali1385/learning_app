@@ -15,4 +15,19 @@ class MyColors {
     Color(0xff0141C0),
     Color(0xff02318D),
   ]);
+
+  static const gradient4 = LinearGradient(colors: [
+    Color(0xff009E49),
+    Color(0xffBAD80A),
+  ]);
+
+  static const gradient5 = LinearGradient(colors: [
+    Color(0xffFF6692),
+    Color(0xffA86BB9),
+  ]);
+
+  static const gradient6 = LinearGradient(colors: [
+    Color(0xffFC007A),
+    Color(0xff00E1FD),
+  ]);
 }

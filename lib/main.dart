@@ -33,16 +33,13 @@ class _MyAppState extends State<MyApp> {
       options: DefaultFirebaseOptions.currentPlatform,
     );
 
-    FirebaseDatabase database = FirebaseDatabase.instance;
-
-    DatabaseReference ref = database.ref('learniverse/123');
-
-    await ref.set({"name": 'Asif', 'designation': 'Application Developer'});
-
-    final db = FirebaseFirestore.instance;
-    final cls = await db.collection('Curates').get().then((v) {
-      print('Data=>${v.docs.first['name']}');
-    });
+    // FirebaseDatabase database = FirebaseDatabase.instance;
+    // DatabaseReference ref = database.ref('learniverse/123');
+    // await ref.set({"name": 'Asif', 'designation': 'Application Developer'});
+    // final db = FirebaseFirestore.instance;
+    // final cls = await db.collection('Curates').get().then((v) {
+    //   print('Data=>${v.docs.first['name']}');
+    // });
 
     ///////////////
   }

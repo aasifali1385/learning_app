@@ -10,6 +10,7 @@ Widget courseContent(course) {
           color: Colors.white,
           fontWeight: FontWeight.bold,
           fontSize: 18,
+          // fontSize: cons.maxWidth / 10,
         ),
       ),
       const SizedBox(height: 8),
@@ -19,6 +20,7 @@ Widget courseContent(course) {
         style: const TextStyle(
           color: Colors.white,
           fontSize: 16,
+          // fontSize: cons.maxWidth / 12,
         ),
       ),
       const SizedBox(height: 10),

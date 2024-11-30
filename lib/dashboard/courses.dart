@@ -5,8 +5,12 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:learning_app/colors.dart';
 import 'package:learning_app/component.dart';
 
+import '../curated/details.dart';
+
 class Courses extends StatefulWidget {
-  const Courses({super.key});
+  final String? title;
+
+  const Courses({super.key, this.title});
 
   @override
   State<Courses> createState() => _CoursesState();
@@ -21,7 +25,11 @@ class _CoursesState extends State<Courses> {
 
     final db = FirebaseFirestore.instance;
 
-    db.collection('Curates').get().then((coll) {
+    db
+        .collection('Curates')
+        .where('category', arrayContains: widget.title)
+        .get()
+        .then((coll) {
       // print('Data=>${coll.docs.first['name']}');
       courses = coll.docs;
       setState(() {});
@@ -30,87 +38,105 @@ class _CoursesState extends State<Courses> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          height: 200,
-          decoration: const BoxDecoration(
-            gradient: MyColors.gradient2,
+    return Scaffold(
+      body: Stack(
+        children: [
+          Container(
+            height: 200,
+            decoration: const BoxDecoration(
+              gradient: MyColors.gradient6,
+            ),
           ),
-        ),
-        /////////////////
-        SafeArea(
-          child: Column(
-            children: [
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 30),
-                child: Row(
+          /////////////////
+          SafeArea(
+            child: Column(
+              children: [
+                Row(
                   children: [
-                    // Icon(
-                    //   Icons.school_outlined,
-                    //   color: Colors.white,
-                    //   size: 34,
-                    // ),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
+                    if (widget.title != "")
+                      IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        style: IconButton.styleFrom(
+                          backgroundColor: const Color(0x4DFFFFFF),
+                        ),
+                        icon: const Icon(
+                          Icons.arrow_back_ios_new_rounded,
+                          color: Colors.white,
+                        ),
+                      ),
+                    const SizedBox(width: 10),
                     Text(
-                      'Courses',
-                      style: TextStyle(
-                        fontSize: 26,
-                        color: Colors.black,
+                      widget.title ?? "Courses",
+                      style: const TextStyle(
+                        fontSize: 24,
+                        color: Colors.white,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ],
                 ),
-              ),
-              ////////////////////////////////
-              Expanded(
-                child: Card(
-                    margin: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-                    elevation: 4,
-                    clipBehavior: Clip.antiAliasWithSaveLayer,
-                    color: Colors.white,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.vertical(top: Radius.circular(20)),
-                    ),
-                    child: MasonryGridView.count(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 9,
+                ////////////////////////////////
+                Expanded(
+                  child: Card(
+                      margin: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+                      elevation: 4,
+                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                      color: Colors.white,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(20)),
                       ),
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 2,
-                      crossAxisSpacing: 2,
-                      itemCount: courses.length,
-                      itemBuilder: (context, index) {
-                        List<Color> backColors = [];
-                        for (var code in courses[index]['colors']) {
-                          backColors.add(Color(int.parse(code, radix: 16)));
-                        }
-                        return Card(
-                          elevation: 4,
-                          clipBehavior: Clip.antiAlias,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(14)),
-                          child: Container(
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                    begin: Alignment.topCenter,
-                                    end: Alignment.bottomCenter,
-                                    colors: backColors),
-                              ),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 14, vertical: 10),
-                              child: courseContent(courses[index])),
-                        );
-                      },
-                    )),
-              ),
-            ],
+                      child: MasonryGridView.count(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 9,
+                        ),
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 2,
+                        crossAxisSpacing: 2,
+                        itemCount: courses.length,
+                        itemBuilder: (context, index) {
+                          List<Color> backColors = [];
+                          for (var code in courses[index]['colors']) {
+                            backColors.add(Color(int.parse(code, radix: 16)));
+                          }
+                          return Card(
+                            elevation: 4,
+                            clipBehavior: Clip.antiAlias,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(14)),
+                            child: Container(
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
+                                      colors: backColors),
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 14, vertical: 10),
+                                child: InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              Details(colors: backColors),
+                                        ),
+                                      );
+                                    },
+                                    child: courseContent(courses[index]))),
+                          );
+                        },
+                      )),
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
