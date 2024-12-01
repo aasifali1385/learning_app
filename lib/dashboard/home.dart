@@ -20,10 +20,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-
-    final db = FirebaseFirestore.instance;
-
-    db.collection('Curates').get().then((coll) {
+    FirebaseFirestore.instance.collection('Curates').get().then((coll) {
       setState(() {
         courses = coll.docs;
       });
