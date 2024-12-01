@@ -8,9 +8,9 @@ import 'package:learning_app/component.dart';
 import '../curated/details.dart';
 
 class Courses extends StatefulWidget {
-  final String? title;
+  final String? title, desc;
 
-  const Courses({super.key, this.title});
+  const Courses({super.key, this.title, this.desc});
 
   @override
   State<Courses> createState() => _CoursesState();
@@ -44,7 +44,7 @@ class _CoursesState extends State<Courses> {
       body: Stack(
         children: [
           Container(
-            height: 200,
+            height: 300,
             decoration: const BoxDecoration(
               gradient: MyColors.gradient7,
             ),
@@ -53,36 +53,60 @@ class _CoursesState extends State<Courses> {
           SafeArea(
             child: Column(
               children: [
-                const SizedBox(height: 4),
-                Row(
-                  children: [
-                    const SizedBox(width: 10),
-                    if (widget.title != null)
-                      IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        style: IconButton.styleFrom(
-                          backgroundColor: const Color(0x4DFFFFFF),
-                        ),
-                        icon: const Icon(
-                          Icons.arrow_back_ios_new_rounded,
-                          color: Colors.white,
-                        ),
+                Expanded(
+                  flex: 0,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          const SizedBox(width: 10),
+                          if (widget.title != null)
+                            IconButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              style: IconButton.styleFrom(
+                                backgroundColor: const Color(0x4DFFFFFF),
+                              ),
+                              icon: const Icon(
+                                Icons.arrow_back_ios_new_rounded,
+                                color: Colors.white,
+                              ),
+                            ),
+                          const SizedBox(width: 10, height: 40),
+                          Text(
+                            widget.title ?? "Courses",
+                            style: const TextStyle(
+                              fontSize: 24,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
-                    const SizedBox(width: 10, height: 50),
-                    Text(
-                      widget.title ?? "Courses",
-                      style: const TextStyle(
-                        fontSize: 24,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
+                      Padding(
+                          padding: EdgeInsets.fromLTRB(
+                              widget.title != null ? 14 : 20, 0, 14, 4),
+                          child: Text(
+                          widget.desc ??
+                              "Learniverse is an innovative courses platform designed to empower learners of all ages and backgrounds. With a diverse range of courses spanning business, technology, creative arts, health, and personal development, Learniverse offers something for everyone.",
+                          // maxLines: widget.title != null ? 3 : 3,
+                          maxLines: 4,
+                          textAlign: TextAlign.justify,
+                          // overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
                 ////////////////////////////////
                 Expanded(
+                  flex: 4,
                   child: Card(
                       margin: const EdgeInsets.fromLTRB(0, 8, 0, 0),
                       elevation: 4,
@@ -136,11 +160,14 @@ class _CoursesState extends State<Courses> {
                                                   context,
                                                   MaterialPageRoute(
                                                     builder: (context) =>
-                                                        Details(colors: backColors, course:  courses[index]),
+                                                        Details(
+                                                            colors: backColors,
+                                                            course:
+                                                                courses[index]),
                                                   ),
                                                 );
                                               },
-                                              child: courseContent(
+                                              child: courseListItem(
                                                   courses[index]))),
                                     );
                                   },

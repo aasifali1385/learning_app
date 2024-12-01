@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'contentComponent.dart';
+
+import '../component.dart';
 
 class Details extends StatefulWidget {
   final dynamic colors;
@@ -81,7 +82,9 @@ class _DetailsState extends State<Details> {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
-                                color: Colors.white, fontSize: 22),
+                                color: Colors.white,
+                                fontSize: 22,
+                                fontWeight: FontWeight.w500),
                           ),
                         ],
                       ),

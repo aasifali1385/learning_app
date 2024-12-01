@@ -1,6 +1,4 @@
-import 'dart:ffi';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:learning_app/colors.dart';
 import 'package:learning_app/dashboard/courses.dart';
@@ -35,7 +33,7 @@ class _HomeState extends State<Home> {
       children: [
         Container(
           height: 300,
-          decoration: const BoxDecoration(gradient: MyColors.gradient2),
+          decoration: const BoxDecoration(gradient: MyColors.gradient7),
         ),
         //////////////////////
         SafeArea(
@@ -51,12 +49,17 @@ class _HomeState extends State<Home> {
                     children: [
                       Text(
                         'Welcome to',
-                        style: TextStyle(fontSize: 24),
+                        style: TextStyle(
+                          fontSize: 24,
+                          color: Colors.white,
+                        ),
                       ),
                       Text(
                         'Learniverse',
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 36),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 36,
+                            color: Colors.white),
                       ),
                     ],
                   ),
@@ -91,7 +94,7 @@ class _HomeState extends State<Home> {
   }
 }
 
-Widget coursesForYou(courses) {
+Widget coursesForYou(List<QueryDocumentSnapshot> courses) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisAlignment: MainAxisAlignment.center,
@@ -142,7 +145,7 @@ Widget coursesForYou(courses) {
                         ),
                       );
                     },
-                    child: courseContent(courses[index]),
+                    child: courseListItem(courses[index]),
                   ),
                 ),
               );
