@@ -1,26 +1,41 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import '../colors.dart';
-import 'content.dart';
+import 'contentComponent.dart';
 
 class Details extends StatefulWidget {
   final dynamic colors;
+  final QueryDocumentSnapshot course;
 
-  const Details({super.key, required this.colors});
+  const Details({super.key, required this.colors, required this.course});
 
   @override
   State<Details> createState() => _DetailsState();
 }
 
-class _DetailsState extends State<Details> with SingleTickerProviderStateMixin {
+class _DetailsState extends State<Details> {
   late TabController tabController;
+
+  List<QueryDocumentSnapshot> docs = [];
+  bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    SystemChrome.setSystemUIOverlayStyle(
-        const SystemUiOverlayStyle(statusBarIconBrightness: Brightness.light));
-    tabController = TabController(length: 8, vsync: this);
+
+    FirebaseFirestore.instance
+        .collection("Curates")
+        .doc(widget.course.id)
+        .collection("Content")
+        .get()
+        .then(
+      (qs) {
+        setState(() {
+          docs = qs.docs;
+          isLoading = false;
+        });
+      },
+      onError: (e) => print("Error completing: $e"),
+    );
   }
 
   @override
@@ -41,7 +56,7 @@ class _DetailsState extends State<Details> with SingleTickerProviderStateMixin {
             child: Column(
               children: [
                 Expanded(
-                  flex: 1,
+                  flex: 0,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -60,8 +75,29 @@ class _DetailsState extends State<Details> with SingleTickerProviderStateMixin {
                               color: Colors.white,
                             ),
                           ),
+                          const SizedBox(width: 10),
+                          Text(
+                            widget.course['name'],
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 22),
+                          ),
                         ],
                       ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(14, 4, 14, 0),
+                        child: Text(
+                          widget.course['desc'],
+                          maxLines: 3,
+                          textAlign: TextAlign.justify,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                          ),
+                        ),
+                      )
                     ],
                   ),
                 ),
@@ -74,53 +110,49 @@ class _DetailsState extends State<Details> with SingleTickerProviderStateMixin {
                     color: Colors.white,
                     shape: const RoundedRectangleBorder(
                       borderRadius:
-                          BorderRadius.vertical(top: Radius.circular(30)),
+                          BorderRadius.vertical(top: Radius.circular(20)),
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        TabBar(
-                          padding: const EdgeInsets.symmetric(vertical: 12),
-                          controller: tabController,
-                          dividerHeight: 0,
-                          isScrollable: true,
-                          // indicator: UnderlineTabIndicator(
-                          //   borderRadius: BorderRadius.circular(4),
-                          //   insets: const EdgeInsets.symmetric(vertical: -4),
-                          //   borderSide: const BorderSide(width: 2.25, color: Colors.black )),
-                          indicatorPadding:
-                              const EdgeInsets.symmetric(vertical: -6),
+                    child: isLoading
+                        ? Center(
+                            child: CircularProgressIndicator(
+                            color: widget.colors[1],
+                          ))
+                        : docs.isEmpty
+                            ? Padding(
+                                padding: const EdgeInsets.all(40),
+                                child: Image.asset(
+                                  'assets/coming_soon.png',
+                                  color: widget.colors[1],
+                                ),
+                              )
+                            : DefaultTabController(
+                                length: docs.length,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    TabBar(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 12),
+                                      dividerHeight: 0,
+                                      indicatorColor: widget.colors[1],
+                                      isScrollable: true,
+                                      indicatorPadding:
+                                          const EdgeInsets.symmetric(
+                                              vertical: -6),
+                                      tabs: [
+                                        for (var doc in docs) Text(doc.id)
+                                      ],
+                                    ),
 
-                          tabs: const [
-                            Text('Chapter 1'),
-                            Text('Chapter 2'),
-                            Text('data1'),
-                            Text('data1'),
-                            Text('data1'),
-                            Text('data1'),
-                            Text('data1'),
-                            Text('data1'),
-                          ],
-                        ),
-
-                        Expanded(
-                          child: TabBarView(
-                              controller: tabController,
-                              children: const [
-                                Content(),
-                                Text('data'),
-                                Text('data'),
-                                Text('data'),
-                                Text('data'),
-                                Text('data'),
-                                Text('data'),
-                                Text('data'),
-                              ]),
-                        ),
-
-                        //////////////////////////
-                      ],
-                    ),
+                                    Expanded(
+                                      child: TabBarView(children: [
+                                        for (var doc in docs) contentList(doc),
+                                      ]),
+                                    ),
+                                    //////////////////////////
+                                  ],
+                                ),
+                              ),
                   ),
                 ),
               ],

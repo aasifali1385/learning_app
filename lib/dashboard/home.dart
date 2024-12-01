@@ -15,7 +15,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  var courses = [];
+  List<QueryDocumentSnapshot> courses = [];
 
   @override
   void initState() {
@@ -140,7 +140,8 @@ Widget coursesForYou(courses) {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => Details(colors: backColors),
+                          builder: (context) => Details(
+                              colors: backColors, course: courses[index]),
                         ),
                       );
                     },
@@ -217,8 +218,8 @@ Widget category(icon, title, context) {
   return InkWell(
     borderRadius: BorderRadius.circular(10),
     onTap: () {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => Courses(title:title)));
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => Courses(title: title)));
     },
     child: Column(
       children: [

@@ -30,4 +30,9 @@ class MyColors {
     Color(0xffFC007A),
     Color(0xff00E1FD),
   ]);
+
+  static const gradient7 = LinearGradient(colors: [
+    Color(0xff0165C7),
+    Color(0xff007CFE),
+  ]);
 }

@@ -6,11 +6,12 @@ import 'package:flutter/services.dart';
 import 'package:learning_app/dashboard/dashboard.dart';
 import 'firebase_options.dart';
 
-void main() {
+void main()  {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
     statusBarIconBrightness: Brightness.dark,
   ));
+
   runApp(const MyApp());
 }
 

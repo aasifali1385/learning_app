@@ -18,6 +18,7 @@ class Courses extends StatefulWidget {
 
 class _CoursesState extends State<Courses> {
   var courses = [];
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -30,9 +31,10 @@ class _CoursesState extends State<Courses> {
         .where('category', arrayContains: widget.title)
         .get()
         .then((coll) {
-      // print('Data=>${coll.docs.first['name']}');
-      courses = coll.docs;
-      setState(() {});
+      setState(() {
+        courses = coll.docs;
+        isLoading = false;
+      });
     });
   }
 
@@ -44,17 +46,18 @@ class _CoursesState extends State<Courses> {
           Container(
             height: 200,
             decoration: const BoxDecoration(
-              gradient: MyColors.gradient6,
+              gradient: MyColors.gradient7,
             ),
           ),
           /////////////////
           SafeArea(
             child: Column(
               children: [
+                const SizedBox(height: 4),
                 Row(
                   children: [
                     const SizedBox(width: 10),
-                    if (widget.title != "")
+                    if (widget.title != null)
                       IconButton(
                         onPressed: () {
                           Navigator.pop(context);
@@ -67,7 +70,7 @@ class _CoursesState extends State<Courses> {
                           color: Colors.white,
                         ),
                       ),
-                    const SizedBox(width: 10),
+                    const SizedBox(width: 10, height: 50),
                     Text(
                       widget.title ?? "Courses",
                       style: const TextStyle(
@@ -89,48 +92,59 @@ class _CoursesState extends State<Courses> {
                         borderRadius:
                             BorderRadius.vertical(top: Radius.circular(20)),
                       ),
-                      child: MasonryGridView.count(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 9,
-                        ),
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 2,
-                        crossAxisSpacing: 2,
-                        itemCount: courses.length,
-                        itemBuilder: (context, index) {
-                          List<Color> backColors = [];
-                          for (var code in courses[index]['colors']) {
-                            backColors.add(Color(int.parse(code, radix: 16)));
-                          }
-                          return Card(
-                            elevation: 4,
-                            clipBehavior: Clip.antiAlias,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(14)),
-                            child: Container(
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                      begin: Alignment.topCenter,
-                                      end: Alignment.bottomCenter,
-                                      colors: backColors),
-                                ),
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 14, vertical: 10),
-                                child: InkWell(
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              Details(colors: backColors),
-                                        ),
-                                      );
-                                    },
-                                    child: courseContent(courses[index]))),
-                          );
-                        },
-                      )),
+                      child: isLoading
+                          ? const Center(
+                              child: CircularProgressIndicator(
+                                color: Color(0xff0165C7),
+                              ),
+                            )
+                          : courses.isEmpty
+                              ? Image.asset('assets/empty.jpg')
+                              : MasonryGridView.count(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 8,
+                                    vertical: 9,
+                                  ),
+                                  crossAxisCount: 2,
+                                  mainAxisSpacing: 2,
+                                  crossAxisSpacing: 2,
+                                  itemCount: courses.length,
+                                  itemBuilder: (context, index) {
+                                    List<Color> backColors = [];
+                                    for (var code in courses[index]['colors']) {
+                                      backColors.add(
+                                          Color(int.parse(code, radix: 16)));
+                                    }
+                                    return Card(
+                                      elevation: 4,
+                                      clipBehavior: Clip.antiAlias,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(14)),
+                                      child: Container(
+                                          decoration: BoxDecoration(
+                                            gradient: LinearGradient(
+                                                begin: Alignment.topCenter,
+                                                end: Alignment.bottomCenter,
+                                                colors: backColors),
+                                          ),
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 14, vertical: 10),
+                                          child: InkWell(
+                                              onTap: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        Details(colors: backColors, course:  courses[index]),
+                                                  ),
+                                                );
+                                              },
+                                              child: courseContent(
+                                                  courses[index]))),
+                                    );
+                                  },
+                                )),
                 ),
               ],
             ),
