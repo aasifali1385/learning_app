@@ -27,13 +27,15 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
+    // double screenWidth = MediaQuery.of(context).size.width;
 
     return Stack(
       children: [
         Container(
           height: 300,
-          decoration: const BoxDecoration(gradient: MyColors.gradient7),
+          decoration: const BoxDecoration(
+            gradient: MyColors.gradient8,
+          ),
         ),
         //////////////////////
         SafeArea(

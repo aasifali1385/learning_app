@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:learning_app/colors.dart';
 import 'package:learning_app/component.dart';
-
 import '../curated/details.dart';
 
 class Courses extends StatefulWidget {
@@ -46,7 +45,7 @@ class _CoursesState extends State<Courses> {
           Container(
             height: 300,
             decoration: const BoxDecoration(
-              gradient: MyColors.gradient7,
+              gradient: MyColors.gradient9,
             ),
           ),
           /////////////////
@@ -54,7 +53,7 @@ class _CoursesState extends State<Courses> {
             child: Column(
               children: [
                 Expanded(
-                  flex: 0,
+                  flex: 1,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -76,7 +75,7 @@ class _CoursesState extends State<Courses> {
                             ),
                           const SizedBox(width: 10, height: 40),
                           Text(
-                            widget.title ?? "Courses",
+                            widget.title ?? "Learniverse Courses",
                             style: const TextStyle(
                               fontSize: 24,
                               color: Colors.white,
@@ -86,14 +85,15 @@ class _CoursesState extends State<Courses> {
                         ],
                       ),
                       Padding(
-                          padding: EdgeInsets.fromLTRB(
-                              widget.title != null ? 14 : 20, 0, 14, 4),
-                          child: Text(
+                        padding: EdgeInsets.fromLTRB(
+                            widget.title != null ? 14 : 20,
+                            widget.title != null ? 6 : 0,
+                            14,
+                            4),
+                        child: Text(
                           widget.desc ??
-                              "Learniverse is an innovative courses platform designed to empower learners of all ages and backgrounds. With a diverse range of courses spanning business, technology, creative arts, health, and personal development, Learniverse offers something for everyone.",
-                          // maxLines: widget.title != null ? 3 : 3,
-                          maxLines: 4,
-                          textAlign: TextAlign.justify,
+                              "Transform your curiosity into expertise with Learniverse; where every course is a gateway to new opportunities!",
+                          // textAlign: TextAlign.justify,
                           // overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
                             color: Colors.white,
@@ -182,23 +182,6 @@ class _CoursesState extends State<Courses> {
   }
 }
 
-Widget item1() {
-  return Card(
-    elevation: 4,
-    margin: const EdgeInsets.all(8),
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-    clipBehavior: Clip.antiAlias,
-    child: Container(
-      decoration: const BoxDecoration(
-          // gradient: LinearGradient(
-          //     begin: Alignment.topRight,
-          //     end: Alignment.bottomLeft,
-          //     colors: [Color(0xffbf0160), Color(0xff530270)]),
-          ),
-      child: const AspectRatio(aspectRatio: 1 / 1.4, child: Column()),
-    ),
-  );
-}
 
 Widget searchBar() {
   return Card(
@@ -228,35 +211,5 @@ Widget searchBar() {
             ),
           )),
     ),
-  );
-}
-
-Widget item2() {
-  return const Column(
-    children: [
-      Card(
-        color: Colors.black,
-        elevation: 4,
-        margin: EdgeInsets.all(8),
-        child: Padding(
-          padding: EdgeInsets.all(10),
-          child: Icon(
-            Icons.cloud_rounded,
-            size: 40,
-            color: Colors.white,
-            // shadows: [Shadow(offset: Offset(2, 2), color: Colors.black26)],
-          ),
-        ),
-      ),
-      Text(
-        'Cloud Cloud',
-        textAlign: TextAlign.center,
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-        style: TextStyle(
-          fontSize: 15,
-        ),
-      ),
-    ],
   );
 }

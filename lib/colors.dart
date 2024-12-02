@@ -1,6 +1,26 @@
 import 'package:flutter/material.dart';
 
 class MyColors {
+  static const color1 = Color(0xff02072E);
+  static const color2 = Color(0xff00052E);
+
+  static const color3 = Color(0xff7756A8);
+  static const color4 = Color(0xff4F238A);
+
+  static const color5 = Color(0xff001B62);
+  static const color6 = Color(0xff0C1566);
+  static const color7 = Color(0xff021A64);
+
+  static const gradient8 = const LinearGradient(colors: [
+    color1,
+    color4,
+  ]);
+
+  static const gradient9 = const LinearGradient(colors: [
+    color6,
+    color4,
+  ]);
+
   static const gradient1 = const LinearGradient(colors: [
     Color(0xff850168),
     Color(0xffbf0160),
