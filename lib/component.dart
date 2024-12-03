@@ -37,6 +37,8 @@ Widget courseListItem(QueryDocumentSnapshot course) {
 Widget contentList(doc) {
   List<MapEntry<String, dynamic>> entries = doc.data().entries.toList();
 
+  entries.sort((a, b) => a.value['show'].compareTo(b.value['show']));
+
   return ListView.builder(
     padding: const EdgeInsets.all(8),
     itemCount: entries.length,
@@ -49,7 +51,7 @@ Widget contentList(doc) {
 Widget topic(topic) {
   return Container(
     decoration: BoxDecoration(
-      color:  Colors.grey[100],
+      color: Colors.grey[100],
       borderRadius: BorderRadius.circular(10),
     ),
     margin: const EdgeInsets.all(4),
@@ -75,16 +77,32 @@ Widget topic(topic) {
             topic['title'],
             style: const TextStyle(
               color: Colors.black,
-              fontSize: 17,
+              fontSize: 18,
               fontWeight: FontWeight.w500,
             ),
           ),
+        // if (topic['desc'] != null)
+        //   Text(
+        //     topic['desc'],
+        //     textAlign: TextAlign.justify,
+        //     style: const TextStyle(fontSize: 15),
+        //   ),
+
         if (topic['desc'] != null)
-          Text(
-            topic['desc'],
-            textAlign: TextAlign.justify,
-            style: const TextStyle(fontSize: 15),
-          ),
+          for (int i = 0; i < topic['desc'].length; i++)
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  topic['desc'].entries.toList()[i].value.toString(),
+                  textAlign: TextAlign.justify,
+                  style: const TextStyle(fontSize: 16),
+                ),
+                if (topic['desc'].length != i + 1) const Divider(),
+              ],
+            ),
+
+        ///////////////////////
       ],
     ),
   );
