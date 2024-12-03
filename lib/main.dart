@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:learning_app/dashboard/dashboard.dart';
 import 'firebase_options.dart';
 
@@ -33,6 +34,7 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
+        fontFamily: GoogleFonts.lato().fontFamily
       ),
       home: const Dashboard(),
     );

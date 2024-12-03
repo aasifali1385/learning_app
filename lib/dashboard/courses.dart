@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:learning_app/colors.dart';
 import 'package:learning_app/component.dart';
 import '../curated/details.dart';
@@ -57,6 +58,7 @@ class _CoursesState extends State<Courses> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      SizedBox(height: widget.title == null ? 20 : 10),
                       Row(
                         children: [
                           const SizedBox(width: 10),
@@ -66,14 +68,14 @@ class _CoursesState extends State<Courses> {
                                 Navigator.pop(context);
                               },
                               style: IconButton.styleFrom(
-                                backgroundColor: const Color(0x4DFFFFFF),
+                                backgroundColor: const Color(0x33FFFFFF),
                               ),
                               icon: const Icon(
                                 Icons.arrow_back_ios_new_rounded,
                                 color: Colors.white,
                               ),
                             ),
-                          const SizedBox(width: 10, height: 40),
+                          const SizedBox(width: 10),
                           Text(
                             widget.title ?? "Learniverse Courses",
                             style: const TextStyle(
@@ -86,20 +88,20 @@ class _CoursesState extends State<Courses> {
                       ),
                       Padding(
                         padding: EdgeInsets.fromLTRB(
-                            widget.title != null ? 14 : 20,
-                            widget.title != null ? 6 : 0,
-                            14,
-                            4),
+                            widget.title != null ? 16 : 20, 4, 14, 4),
                         child: Text(
-                          widget.desc ??
-                              "Transform your curiosity into expertise with Learniverse; where every course is a gateway to new opportunities!",
-                          // textAlign: TextAlign.justify,
-                          // overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                          ),
-                        ),
+                            widget.desc ??
+                                "Transform your curiosity into expertise with Learniverse; where every course is a gateway to new opportunities!",
+                            // textAlign: TextAlign.center,
+                            // overflow: TextOverflow.ellipsis,
+                            style: GoogleFonts.lato(
+                                color: Colors.white, fontSize: 16)
+                            // const TextStyle(
+                            //   color: Colors.white,
+                            // fontSize: 16,
+                            // ),
+
+                            ),
                       )
                     ],
                   ),
@@ -181,7 +183,6 @@ class _CoursesState extends State<Courses> {
     );
   }
 }
-
 
 Widget searchBar() {
   return Card(

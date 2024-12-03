@@ -69,7 +69,7 @@ class _DetailsState extends State<Details> {
                               Navigator.pop(context);
                             },
                             style: IconButton.styleFrom(
-                              backgroundColor: const Color(0x4DFFFFFF),
+                              backgroundColor: const Color(0x33FFFFFF),
                             ),
                             icon: const Icon(
                               Icons.arrow_back_ios_new_rounded,
@@ -89,7 +89,7 @@ class _DetailsState extends State<Details> {
                         ],
                       ),
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(14, 4, 14, 0),
+                        padding: const EdgeInsets.fromLTRB(16, 4, 16, 2),
                         child: Text(
                           widget.course['desc'],
                           maxLines: 3,
