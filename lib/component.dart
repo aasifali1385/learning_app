@@ -34,7 +34,7 @@ Widget courseListItem(QueryDocumentSnapshot course) {
   );
 }
 
-Widget contentList(doc) {
+Widget contentList(doc, zoom) {
   List<MapEntry<String, dynamic>> entries = doc.data().entries.toList();
 
   entries.sort((a, b) => a.value['show'].compareTo(b.value['show']));
@@ -43,12 +43,12 @@ Widget contentList(doc) {
     padding: const EdgeInsets.all(8),
     itemCount: entries.length,
     itemBuilder: (BuildContext context, int index) {
-      return topic(entries[index].value);
+      return topic(entries[index].value, zoom);
     },
   );
 }
 
-Widget topic(topic) {
+Widget topic(topic, zoom) {
   return Container(
     decoration: BoxDecoration(
       color: Colors.grey[100],
@@ -62,16 +62,23 @@ Widget topic(topic) {
         if (topic['image'] != null)
           Image.network(
             topic['image'],
+            fit: BoxFit.cover,
             frameBuilder: (context, widget, inn, boo) {
               return Container(
                 clipBehavior: Clip.antiAlias,
+                width: double.maxFinite,
                 margin: const EdgeInsets.only(bottom: 4, top: 2),
                 decoration:
                     BoxDecoration(borderRadius: BorderRadius.circular(7)),
-                child: widget,
+                // child: widget,
+                child: Transform.scale(
+                  scale: zoom,
+                  child: widget,
+                ),
               );
             },
           ),
+
         if (topic['title'] != null)
           Text(
             topic['title'],

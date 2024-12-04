@@ -149,7 +149,7 @@ class _DetailsState extends State<Details> {
 
                                     Expanded(
                                       child: TabBarView(children: [
-                                        for (var doc in docs) contentList(doc),
+                                        for (var doc in docs) contentList(doc, widget.course['zoom']),
                                       ]),
                                     ),
                                     //////////////////////////

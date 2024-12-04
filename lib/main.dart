@@ -11,6 +11,8 @@ void main() async {
     statusBarIconBrightness: Brightness.light,
   ));
 
+  // SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -32,10 +34,9 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       title: 'Learnivese',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-        fontFamily: GoogleFonts.lato().fontFamily
-      ),
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+          fontFamily: GoogleFonts.lato().fontFamily),
       home: const Dashboard(),
     );
   }
