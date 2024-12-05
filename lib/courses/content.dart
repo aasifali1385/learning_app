@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import '../component.dart';
 
 class Content extends StatefulWidget {
-  final dynamic colors;
+  final dynamic colors, chapter;
   final List<MapEntry<String, dynamic>> content;
   final dynamic zoom, index;
 
   const Content(
       {super.key,
       required this.colors,
+      required this.chapter,
       required this.content,
       required this.index,
       required this.zoom});
@@ -29,7 +30,7 @@ class _ContentState extends State<Content> {
       body: Stack(
         children: [
           Container(
-            height: 300,
+            height: 200,
             alignment: Alignment.topLeft,
             padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 22),
             decoration: BoxDecoration(
@@ -42,51 +43,31 @@ class _ContentState extends State<Content> {
               children: [
                 Expanded(
                   flex: 0,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  child: Row(
                     children: [
-                      Row(
-                        children: [
-                          const SizedBox(width: 10),
-                          IconButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            style: IconButton.styleFrom(
-                              backgroundColor: const Color(0x33FFFFFF),
-                            ),
-                            icon: const Icon(
-                              Icons.arrow_back_ios_new_rounded,
-                              color: Colors.white,
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          Text(
-                            "",
-                            // widget.course['name'],
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 22,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(16, 4, 16, 2),
-                        child: Text(
-                          "",
-                          // widget.course['desc'],
-                          maxLines: 3,
-                          textAlign: TextAlign.justify,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                          ),
+                      const SizedBox(width: 10),
+                      IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        style: IconButton.styleFrom(
+                          backgroundColor: const Color(0x33FFFFFF),
                         ),
-                      )
+                        icon: const Icon(
+                          Icons.arrow_back_ios_new_rounded,
+                          color: Colors.white,
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Text(
+                        widget.chapter,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 22,
+                            fontWeight: FontWeight.w500),
+                      ),
                     ],
                   ),
                 ),
@@ -115,6 +96,7 @@ class _ContentState extends State<Content> {
                                 ),
                               )
                             : DefaultTabController(
+                                initialIndex: widget.index,
                                 length: widget
                                     .content.length, //widget.course.length,
                                 child: Column(
@@ -122,13 +104,15 @@ class _ContentState extends State<Content> {
                                   children: [
                                     TabBar(
                                       padding: const EdgeInsets.symmetric(
-                                          vertical: 12),
+                                        vertical: 12,
+                                      ),
                                       dividerHeight: 0,
                                       indicatorColor: widget.colors[1],
                                       isScrollable: true,
                                       indicatorPadding:
                                           const EdgeInsets.symmetric(
-                                              vertical: -6),
+                                        vertical: -6,
+                                      ),
                                       tabs: [
                                         for (var doc in widget.content)
                                           Text(doc.value['title'])

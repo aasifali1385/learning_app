@@ -67,7 +67,7 @@ Widget topic(topic, zoom) {
               return Container(
                 clipBehavior: Clip.antiAlias,
                 width: double.maxFinite,
-                margin: const EdgeInsets.only(bottom: 4, top: 2),
+                margin: const EdgeInsets.only(bottom: 8, top: 2),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
                   // border: Border.all(color: Colors.black, width: 10),

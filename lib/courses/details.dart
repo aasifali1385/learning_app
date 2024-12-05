@@ -1,8 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:learning_app/curated/content.dart';
-
 import '../component.dart';
+import 'content.dart';
 
 class Details extends StatefulWidget {
   final dynamic colors;
@@ -79,8 +78,7 @@ class _DetailsState extends State<Details> {
                           ),
                           const SizedBox(width: 10),
                           Text(
-                            '',
-                            // widget.course['name'],
+                            widget.course['name'],
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
@@ -93,8 +91,7 @@ class _DetailsState extends State<Details> {
                       Padding(
                         padding: const EdgeInsets.fromLTRB(16, 10, 16, 2),
                         child: Text(
-                          "",
-                          // widget.course['desc'],
+                          widget.course['desc'],
                           maxLines: 3,
                           textAlign: TextAlign.justify,
                           overflow: TextOverflow.ellipsis,
@@ -164,8 +161,8 @@ class _DetailsState extends State<Details> {
                                         //     bottom: 10, left: 30, right: 10),
 
                                         children:
-                                        entries.asMap().entries.map((data){
-                                        // entries.map((data) {
+                                            entries.asMap().entries.map((data) {
+                                          // entries.map((data) {
                                           return InkWell(
                                             onTap: () {
                                               Navigator.push(
@@ -173,6 +170,7 @@ class _DetailsState extends State<Details> {
                                                 MaterialPageRoute(
                                                   builder: (context) => Content(
                                                       colors: widget.colors,
+                                                      chapter : docs[index].id,
                                                       content: entries,
                                                       index: data.key,
                                                       zoom: widget.course['zoom']),

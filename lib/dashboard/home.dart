@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:learning_app/colors.dart';
 import 'package:learning_app/dashboard/courses.dart';
 import '../component.dart';
-import '../curated/content.dart';
-import '../curated/details.dart';
+import '../courses/details.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
