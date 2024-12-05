@@ -51,13 +51,13 @@ Widget contentList(doc, zoom) {
 Widget topic(topic, zoom) {
   return Container(
     decoration: BoxDecoration(
-      color: Colors.grey[100],
+      // color: Colors.grey[100],
       borderRadius: BorderRadius.circular(10),
     ),
     margin: const EdgeInsets.all(4),
     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    child: ListView(
+      // crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (topic['image'] != null)
           Image.network(
@@ -68,9 +68,10 @@ Widget topic(topic, zoom) {
                 clipBehavior: Clip.antiAlias,
                 width: double.maxFinite,
                 margin: const EdgeInsets.only(bottom: 4, top: 2),
-                decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(7)),
-                // child: widget,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  // border: Border.all(color: Colors.black, width: 10),
+                ),
                 child: Transform.scale(
                   scale: zoom,
                   child: widget,
@@ -79,15 +80,16 @@ Widget topic(topic, zoom) {
             },
           ),
 
-        if (topic['title'] != null)
-          Text(
-            topic['title'],
-            style: const TextStyle(
-              color: Colors.black,
-              fontSize: 18,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
+        // if (topic['title'] != null)
+        //   Text(
+        //     topic['title'],
+        //     style: const TextStyle(
+        //       color: Colors.black,
+        //       fontSize: 18,
+        //       fontWeight: FontWeight.w500,
+        //     ),
+        //   ),
+        ////////////////////////////////////////
         // if (topic['desc'] != null)
         //   Text(
         //     topic['desc'],

@@ -5,6 +5,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:learning_app/colors.dart';
 import 'package:learning_app/component.dart';
+import '../curated/content.dart';
 import '../curated/details.dart';
 
 class Courses extends StatefulWidget {
