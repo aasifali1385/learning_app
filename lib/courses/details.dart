@@ -143,7 +143,7 @@ class _DetailsState extends State<Details> {
                                     return Container(
                                       clipBehavior: Clip.antiAlias,
                                       decoration: BoxDecoration(
-                                        color: Colors.grey[100],
+                                        color: Colors.grey[200],
                                         borderRadius: BorderRadius.circular(14),
                                       ),
                                       margin: const EdgeInsets.all(4),

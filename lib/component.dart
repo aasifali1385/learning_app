@@ -60,24 +60,23 @@ Widget topic(topic, zoom) {
       // crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (topic['image'] != null)
-          Image.network(
-            topic['image'],
-            fit: BoxFit.cover,
-            frameBuilder: (context, widget, inn, boo) {
-              return Container(
-                clipBehavior: Clip.antiAlias,
-                width: double.maxFinite,
-                margin: const EdgeInsets.only(bottom: 8, top: 2),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  // border: Border.all(color: Colors.black, width: 10),
+          AspectRatio(
+            aspectRatio: 16 / 9,
+            child: Container(
+              clipBehavior: Clip.antiAlias,
+              margin: const EdgeInsets.only(bottom: 8),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.grey[200],
+              ),
+              child: Transform.scale(
+                scale: zoom,
+                child: Image.network(
+                  topic['image'],
+                  fit: BoxFit.fill,
                 ),
-                child: Transform.scale(
-                  scale: zoom,
-                  child: widget,
-                ),
-              );
-            },
+              ),
+            ),
           ),
 
         // if (topic['title'] != null)
