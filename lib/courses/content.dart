@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import '../component.dart';
 
@@ -120,11 +121,13 @@ class _ContentState extends State<Content> {
                                     ),
 
                                     Expanded(
-                                      child: TabBarView(children: [
-                                        for (var doc in widget.content)
-                                          topic(doc.value, widget.zoom)
-                                        //contentList(doc, widget.course['zoom']),
-                                      ]),
+                                      child: TabBarView(
+                                        children: [
+                                          for (var doc in widget.content)
+                                            topic(doc.value, widget.zoom)
+                                          //contentList(doc, widget.course['zoom']),
+                                        ],
+                                      ),
                                     ),
 
                                     //////////////////////////
