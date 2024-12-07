@@ -34,48 +34,36 @@ Widget courseListItem(QueryDocumentSnapshot course) {
   );
 }
 
-Widget contentList(doc, zoom) {
-  List<MapEntry<String, dynamic>> entries = doc.data().entries.toList();
-
-  entries.sort((a, b) => a.value['show'].compareTo(b.value['show']));
+Widget contentList(QueryDocumentSnapshot doc, zoom) {
+  List<MapEntry<String, dynamic>> entries =
+      (doc.data() as Map<String, dynamic>).entries.toList().reversed.toList();
+  // entries.sort((a, b) => a.key.compareTo(b.key));
+  // entries.sort((a, b) => a.value['show'].compareTo(b.value['show']));
 
   return ListView.builder(
     padding: const EdgeInsets.all(8),
     itemCount: entries.length,
     itemBuilder: (BuildContext context, int index) {
-      return topic(entries[index].value, zoom);
+      return topic(entries[index].value, index, zoom);
     },
   );
 }
 
-Widget topic(topic, zoom) {
+Widget topic(topic, index, zoom) {
   return Container(
-    decoration: BoxDecoration(
-      // color: Colors.grey[100],
-      borderRadius: BorderRadius.circular(10),
-    ),
-    margin: const EdgeInsets.all(4),
-    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-    child: ListView(
-      // crossAxisAlignment: CrossAxisAlignment.start,
+    // decoration: BoxDecoration(
+    // color: Colors.grey[100],
+    // borderRadius: BorderRadius.circular(10),
+    // ),
+    // margin: const EdgeInsets.all(4),
+    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (topic['image1'] != null) image(topic['image1'], zoom),
-        if (topic['title1'] != null) title(topic['title1']),
-        if (topic['desc1'] != null) desc(topic['desc1']),
-        if (topic['image2'] != null ||
-            topic['title2'] != null ||
-            topic['desc2'] != null)
-          const Divider(),
-        if (topic['image2'] != null) image(topic['image2'], zoom),
-        if (topic['title2'] != null) title(topic['title3']),
-        if (topic['desc2'] != null) desc(topic['desc2']),
-        if (topic['image3'] != null ||
-            topic['title3'] != null ||
-            topic['desc3'] != null)
-          const Divider(),
-        if (topic['image3'] != null) image(topic['image3'], zoom),
-        if (topic['title3'] != null) title(topic['title3']),
-        if (topic['desc3'] != null) desc(topic['desc3']),
+        if (index != 0) const Divider(),
+        if (topic['image'] != null) image(topic['image'], zoom),
+        if (topic['title'] != null) title(topic['title']),
+        if (topic['desc'] != null) desc(topic['desc']),
       ],
     ),
   );

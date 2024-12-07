@@ -1,19 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import '../component.dart';
 
 class Content extends StatefulWidget {
-  final dynamic colors, chapter;
-  final List<MapEntry<String, dynamic>> content;
-  final dynamic zoom, index;
+  final dynamic colors, courseId, entry, selectedIndex, zoom;
 
   const Content(
       {super.key,
       required this.colors,
-      required this.chapter,
-      required this.content,
-      required this.index,
+      required this.courseId,
+      required this.entry,
+      required this.selectedIndex,
       required this.zoom});
 
   @override
@@ -21,9 +18,30 @@ class Content extends StatefulWidget {
 }
 
 class _ContentState extends State<Content> {
-  bool isLoading = false;
+  bool isLoading = true;
 
-  // List<QueryDocumentSnapshot> list = [];
+  List<QueryDocumentSnapshot> docs = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    FirebaseFirestore.instance
+        .collection("Curates")
+        .doc(widget.courseId)
+        .collection(widget.entry.key)
+        .get()
+        .then(
+      (qs) {
+        setState(() {
+          docs = qs.docs;
+          isLoading = false;
+        });
+      },
+      onError: (e) => print("Error completing: $e"),
+    );
+    ////////////////
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +79,7 @@ class _ContentState extends State<Content> {
                       ),
                       const SizedBox(width: 10),
                       Text(
-                        widget.chapter,
+                        widget.entry.key,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
@@ -88,7 +106,7 @@ class _ContentState extends State<Content> {
                             child: CircularProgressIndicator(
                             color: widget.colors[1],
                           ))
-                        : widget.content.isEmpty
+                        : docs.isEmpty
                             ? Padding(
                                 padding: const EdgeInsets.all(40),
                                 child: Image.asset(
@@ -97,16 +115,16 @@ class _ContentState extends State<Content> {
                                 ),
                               )
                             : DefaultTabController(
-                                initialIndex: widget.index,
-                                length: widget
-                                    .content.length, //widget.course.length,
+                                initialIndex: docs.length > widget.selectedIndex
+                                    ? widget.selectedIndex
+                                    : 0,
+                                length: docs.length, //widget.course.length,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     TabBar(
                                       padding: const EdgeInsets.symmetric(
-                                        vertical: 12,
-                                      ),
+                                          vertical: 12),
                                       dividerHeight: 0,
                                       indicatorColor: widget.colors[1],
                                       isScrollable: true,
@@ -115,16 +133,17 @@ class _ContentState extends State<Content> {
                                         vertical: -6,
                                       ),
                                       tabs: [
-                                        for (var doc in widget.content)
-                                          Text(doc.value['title'])
+                                        for (var item in widget.entry.value)
+                                          Text(item)
                                       ],
                                     ),
 
                                     Expanded(
                                       child: TabBarView(
                                         children: [
-                                          for (var doc in widget.content)
-                                            topic(doc.value, widget.zoom)
+                                          for (var doc in docs)
+                                            contentList(doc, widget.zoom)
+                                          // topic(doc.value, widget.zoom)
                                           //contentList(doc, widget.course['zoom']),
                                         ],
                                       ),
