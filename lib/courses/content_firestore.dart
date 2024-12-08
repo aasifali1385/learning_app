@@ -145,10 +145,8 @@ class _ContentState extends State<Content> {
                                     Expanded(
                                       child: TabBarView(
                                         children: [
-                                          for (var doc in docs)
-                                            contentList(doc, widget.zoom)
-                                          // topic(doc.value, widget.zoom)
-                                          //contentList(doc, widget.course['zoom']),
+                                          // for (var doc in docs)
+                                          //   contentList(doc, widget.zoom)
                                         ],
                                       ),
                                     ),

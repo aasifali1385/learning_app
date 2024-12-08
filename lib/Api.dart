@@ -13,7 +13,7 @@ class Api {
   void _initDio() {
     _dio = Dio(
       BaseOptions(
-        baseUrl: 'https://virtualcardhold.web.app/',
+        baseUrl: 'https://universe-25a9c.web.app/',
         // headers: {
         //   "Authorization": "Bearer 123456789abcdef",
         //   "Content-Type": "application/json"
@@ -27,9 +27,8 @@ class Api {
   ////////////////////////////////////////////
 
   Future<dynamic> load(file) async {
-
     try {
-      return await _dio.get('$file.json'.replaceAll(" ", ''));
+      return await _dio.get(file);
     } on DioException catch (e) {
       return e.response;
     }

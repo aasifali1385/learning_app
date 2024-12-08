@@ -3,12 +3,12 @@ import '../Api.dart';
 import '../component.dart';
 
 class Content extends StatefulWidget {
-  final dynamic colors, courseId, entry, selectedIndex, zoom;
+  final dynamic colors, courseName, entry, selectedIndex, zoom;
 
   const Content(
       {super.key,
       required this.colors,
-      required this.courseId,
+      required this.courseName,
       required this.entry,
       required this.selectedIndex,
       required this.zoom});
@@ -20,7 +20,6 @@ class Content extends StatefulWidget {
 class _ContentState extends State<Content> {
   bool isLoading = true;
 
-  // List<MapEntry<String, dynamic>> list = [];
   List<dynamic> list = [];
 
   @override
@@ -30,11 +29,9 @@ class _ContentState extends State<Content> {
   }
 
   void init() async {
-    final res = await Api().load(widget.entry.key);
-    // list = (res.data as Map<String, dynamic>).entries.toList();
+    final res = await Api().load(
+        "${widget.courseName}/${widget.entry.key}.json".replaceAll(' ', ''));
     list = res.data;
-    print(res.data[0]);
-    print(res.data.length);
 
     setState(() {
       isLoading = false;
@@ -132,8 +129,10 @@ class _ContentState extends State<Content> {
                                       ),
                                       tabs: [
                                         // for (var item in widget.entry.value)
-                                          for (var i=0; i<list.length; i++)
-                                          Text(widget.entry.value.length > i ? widget.entry.value[i] : "Undefined")
+                                        for (var i = 0; i < list.length; i++)
+                                          Text(widget.entry.value.length > i
+                                              ? widget.entry.value[i]
+                                              : "Undefined")
                                       ],
                                     ),
 
@@ -141,7 +140,15 @@ class _ContentState extends State<Content> {
                                       child: TabBarView(
                                         children: [
                                           for (var doc in list)
-                                            contentList(doc, widget.zoom)
+                                            contentList(
+                                                doc,
+                                                widget.courseName
+                                                    .toString()
+                                                    .replaceAll(" ", ""),
+                                                widget.entry.key
+                                                    .toString()
+                                                    .replaceAll(" ", ""),
+                                                widget.zoom)
                                         ],
                                       ),
                                     ),

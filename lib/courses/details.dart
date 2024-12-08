@@ -28,6 +28,7 @@ class _DetailsState extends State<Details> {
         .containsKey("chapters")) {
       entries =
           (widget.course['chapters'] as Map<String, dynamic>).entries.toList();
+      entries.sort((a, b) => a.key.compareTo(b.key));
     }
 
     // FirebaseFirestore.instance
@@ -155,6 +156,7 @@ class _DetailsState extends State<Details> {
                                       margin: const EdgeInsets.all(4),
                                       // padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
                                       child: ExpansionTile(
+                                        initiallyExpanded: index == 0,
                                         shape: const RoundedRectangleBorder(),
                                         collapsedShape:
                                             const RoundedRectangleBorder(),
@@ -178,8 +180,8 @@ class _DetailsState extends State<Details> {
                                                 MaterialPageRoute(
                                                   builder: (context) => Content(
                                                       colors: widget.colors,
-                                                      courseId:
-                                                          widget.course.id,
+                                                      courseName:
+                                                          widget.course['name'],
                                                       entry: entries[index],
                                                       // content: entries,
                                                       selectedIndex: data.key,
