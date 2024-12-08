@@ -34,7 +34,7 @@ Widget courseListItem(QueryDocumentSnapshot course) {
   );
 }
 
-Widget contentList(QueryDocumentSnapshot doc, zoom) {
+Widget contentListFireStore(QueryDocumentSnapshot doc, zoom) {
   List<MapEntry<String, dynamic>> entries =
       (doc.data() as Map<String, dynamic>).entries.toList().reversed.toList();
   // entries.sort((a, b) => a.key.compareTo(b.key));
@@ -45,6 +45,17 @@ Widget contentList(QueryDocumentSnapshot doc, zoom) {
     itemCount: entries.length,
     itemBuilder: (BuildContext context, int index) {
       return topic(entries[index].value, index, zoom);
+    },
+  );
+}
+
+Widget contentList(list, zoom) {
+
+  return ListView.builder(
+    padding: const EdgeInsets.all(8),
+    itemCount: list.length,
+    itemBuilder: (BuildContext context, int index) {
+      return topic(list[index], index, zoom);
     },
   );
 }

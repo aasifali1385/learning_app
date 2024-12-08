@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../Api.dart';
 import '../component.dart';
@@ -20,25 +21,30 @@ class Content extends StatefulWidget {
 class _ContentState extends State<Content> {
   bool isLoading = true;
 
-  // List<MapEntry<String, dynamic>> list = [];
-  List<dynamic> list = [];
+  List<QueryDocumentSnapshot> docs = [];
 
   @override
   void initState() {
     super.initState();
-    init();
-  }
 
-  void init() async {
-    final res = await Api().load(widget.entry.key);
-    // list = (res.data as Map<String, dynamic>).entries.toList();
-    list = res.data;
-    print(res.data[0]);
-    print(res.data.length);
+    final start = DateTime.now();
+    FirebaseFirestore.instance
+        .collection("Curates")
+        .doc(widget.courseId)
+        .collection(widget.entry.key)
+        .get()
+        .then(
+      (qs) {
+        print("FireStore=> ${DateTime.now().difference(start).inMilliseconds}");
+        // setState(() {
+        //   docs = qs.docs;
+        //   isLoading = false;
+        // });
+      },
+      onError: (e) => print("Error completing: $e"),
+    );
 
-    setState(() {
-      isLoading = false;
-    });
+    ////////////////
   }
 
   @override
@@ -104,7 +110,7 @@ class _ContentState extends State<Content> {
                             child: CircularProgressIndicator(
                             color: widget.colors[1],
                           ))
-                        : list.isEmpty
+                        : docs.isEmpty
                             ? Padding(
                                 padding: const EdgeInsets.all(40),
                                 child: Image.asset(
@@ -113,10 +119,10 @@ class _ContentState extends State<Content> {
                                 ),
                               )
                             : DefaultTabController(
-                                initialIndex: list.length > widget.selectedIndex
+                                initialIndex: docs.length > widget.selectedIndex
                                     ? widget.selectedIndex
-                                    : list.length - 1,
-                                length: list.length, //widget.course.length,
+                                    : 0,
+                                length: docs.length, //widget.course.length,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -131,17 +137,18 @@ class _ContentState extends State<Content> {
                                         vertical: -6,
                                       ),
                                       tabs: [
-                                        // for (var item in widget.entry.value)
-                                          for (var i=0; i<list.length; i++)
-                                          Text(widget.entry.value.length > i ? widget.entry.value[i] : "Undefined")
+                                        for (var item in widget.entry.value)
+                                          Text(item)
                                       ],
                                     ),
 
                                     Expanded(
                                       child: TabBarView(
                                         children: [
-                                          for (var doc in list)
+                                          for (var doc in docs)
                                             contentList(doc, widget.zoom)
+                                          // topic(doc.value, widget.zoom)
+                                          //contentList(doc, widget.course['zoom']),
                                         ],
                                       ),
                                     ),

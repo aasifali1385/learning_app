@@ -25,8 +25,7 @@ class _CoursesState extends State<Courses> {
 
     final db = FirebaseFirestore.instance;
 
-    db
-        .collection('Curates')
+    db.collection('Curates')
         .where('category', arrayContains: widget.title)
         .get()
         .then((coll) {
