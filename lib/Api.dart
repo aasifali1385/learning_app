@@ -27,6 +27,9 @@ class Api {
   ////////////////////////////////////////////
 
   Future<dynamic> load(file) async {
+
+    print('https://universe-25a9c.web.app/$file');
+
     try {
       return await _dio.get(file);
     } on DioException catch (e) {
