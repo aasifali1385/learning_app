@@ -25,10 +25,8 @@ Widget courseListItem(QueryDocumentSnapshot course) {
         ),
       ),
 
-      if (course.data().toString().contains('image'))
-        const SizedBox(height: 20),
-      if (course.data().toString().contains('image'))
-        Image.network(course['image']),
+      if (course.data().toString().contains('image')) const SizedBox(height: 20),
+      if (course.data().toString().contains('image')) Image.network(course['image']),
       ////////////////
     ],
   );
@@ -72,8 +70,7 @@ Widget topic(topic, index, course, chapter, zoom) {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (index != 0) const Divider(),
-        if (topic['image'] != null)
-          image(course, chapter, topic['image'], zoom),
+        if (topic['image'] != null) image(course, chapter, topic['image'], zoom),
         if (topic['title'] != null) title(topic['title']),
         if (topic['desc'] != null) desc(topic['desc']),
       ],
@@ -87,14 +84,53 @@ Widget title(title) {
     style: const TextStyle(
       color: Colors.black,
       fontSize: 18,
-      fontWeight: FontWeight.w500,
+      fontWeight: FontWeight.w600,
     ),
   );
 }
 
 Widget desc(desc) {
+  final lines = desc.toString().split("\n");
+
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [for (var data in lines) descText(data)],
+  );
+
   return Text(
     desc,
+    textAlign: TextAlign.justify,
+    style: const TextStyle(fontSize: 16),
+  );
+}
+
+Widget descText(data) {
+  final line = data.toString().split(":");
+
+  if (line.length == 1) {
+    return Text(line[0], textAlign: TextAlign.justify, style: const TextStyle(fontSize: 16));
+  }
+
+  if (line[0].length > 99) {
+    return Text(data, textAlign: TextAlign.justify, style: const TextStyle(fontSize: 16));
+  }
+
+  return RichText(
+    textAlign: TextAlign.justify,
+    text: TextSpan(
+      children: [
+        TextSpan(
+          text: "${line[0]}:",
+          style: TextStyle(color: Colors.grey[800], fontSize: 16, fontWeight: FontWeight.bold),
+        ),
+        for (final co in line.sublist(1, line.length))
+          TextSpan(text: co, style: TextStyle(color: Colors.grey[800], fontSize: 16))
+      ],
+    ),
+  );
+
+  return Text(
+    data,
     textAlign: TextAlign.justify,
     style: const TextStyle(fontSize: 16),
   );
