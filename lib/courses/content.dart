@@ -3,12 +3,12 @@ import '../Api.dart';
 import '../component.dart';
 
 class Content extends StatefulWidget {
-  final dynamic colors, courseName, entry, selectedIndex, zoom;
+  final dynamic colors, content, entry, selectedIndex, zoom;
 
   const Content(
       {super.key,
       required this.colors,
-      required this.courseName,
+      required this.content,
       required this.entry,
       required this.selectedIndex,
       required this.zoom});
@@ -29,8 +29,9 @@ class _ContentState extends State<Content> {
   }
 
   void init() async {
+
     final res = await Api().load(
-        "${widget.courseName}/${widget.entry.key}.json".replaceAll(' ', ''));
+        "${widget.content}/${widget.entry.key}.json".replaceAll(' ', ''));
     list = res.data;
 
     setState(() {
@@ -142,7 +143,7 @@ class _ContentState extends State<Content> {
                                           for (var doc in list)
                                             contentList(
                                                 doc,
-                                                widget.courseName
+                                                widget.content
                                                     .toString()
                                                     .replaceAll(" ", ""),
                                                 widget.entry.key
