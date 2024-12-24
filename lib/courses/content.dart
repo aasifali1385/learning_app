@@ -24,14 +24,21 @@ class _ContentState extends State<Content> {
 
   List<dynamic> list = [];
 
+  var timer;
+
   @override
   void initState() {
     super.initState();
     init();
-
-    Timer.periodic(const Duration(seconds: 3), (count) {
+    timer = Timer.periodic(const Duration(seconds: 3), (count) {
       init();
     });
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
   }
 
   void init() async {
