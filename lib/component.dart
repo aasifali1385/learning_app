@@ -20,6 +20,7 @@ Widget courseListItem(QueryDocumentSnapshot course) {
         // textAlign: TextAlign.justify,
         style: const TextStyle(
           color: Colors.white,
+          // overflow: TextOverflow.ellipsis,
           fontSize: 16,
           // fontSize: cons.maxWidth / 12,
         ),
@@ -50,7 +51,7 @@ Widget contentListFireStore(QueryDocumentSnapshot doc, zoom) {
 
 Widget contentList(list, cid, chapter, zoom) {
   return ListView.builder(
-    padding: const EdgeInsets.all(8),
+    padding: const EdgeInsets.fromLTRB(8, 8, 8, 30),
     itemCount: list.length,
     itemBuilder: (BuildContext context, int index) {
       return topic(list[index], index, cid, chapter, zoom);
@@ -65,12 +66,13 @@ Widget topic(topic, index, cid, chapter, zoom) {
     // borderRadius: BorderRadius.circular(10),
     // ),
     // margin: const EdgeInsets.all(4),
-    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (index != 0) const Divider(),
-        if (topic['image'] != null) image(cid, chapter, topic['image'], zoom),
+        if (topic['image'] != null)
+          image(cid.toString().replaceFirst("Swing", "Singh"), chapter, topic['image'], zoom),
         if (topic['title'] != null) title(topic['title']),
         if (topic['desc'] != null) desc(topic['desc']),
       ],
@@ -121,7 +123,7 @@ Widget descText(data) {
       children: [
         TextSpan(
           text: "${line[0]}:",
-          style: TextStyle(color: Colors.grey[800], fontSize: 16, fontWeight: FontWeight.bold),
+          style: TextStyle(color: Colors.grey[900], fontSize: 17, fontWeight: FontWeight.bold),
         ),
         for (final co in line.sublist(1, line.length))
           TextSpan(text: co, style: TextStyle(color: Colors.grey[800], fontSize: 16))
@@ -144,7 +146,7 @@ Widget image(cid, chapter, image, zoom) {
     aspectRatio: 16 / 9,
     child: Container(
       clipBehavior: Clip.antiAlias,
-      margin: const EdgeInsets.only(bottom: 8),
+      margin: const EdgeInsets.only(bottom: 4, top: 2),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         color: Colors.grey[200],
