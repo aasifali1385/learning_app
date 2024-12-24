@@ -48,17 +48,17 @@ Widget contentListFireStore(QueryDocumentSnapshot doc, zoom) {
   );
 }
 
-Widget contentList(list, course, chapter, zoom) {
+Widget contentList(list, cid, chapter, zoom) {
   return ListView.builder(
     padding: const EdgeInsets.all(8),
     itemCount: list.length,
     itemBuilder: (BuildContext context, int index) {
-      return topic(list[index], index, course, chapter, zoom);
+      return topic(list[index], index, cid, chapter, zoom);
     },
   );
 }
 
-Widget topic(topic, index, course, chapter, zoom) {
+Widget topic(topic, index, cid, chapter, zoom) {
   return Container(
     // decoration: BoxDecoration(
     // color: Colors.grey[100],
@@ -70,7 +70,7 @@ Widget topic(topic, index, course, chapter, zoom) {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (index != 0) const Divider(),
-        if (topic['image'] != null) image(course, chapter, topic['image'], zoom),
+        if (topic['image'] != null) image(cid, chapter, topic['image'], zoom),
         if (topic['title'] != null) title(topic['title']),
         if (topic['desc'] != null) desc(topic['desc']),
       ],
@@ -136,9 +136,9 @@ Widget descText(data) {
   );
 }
 
-Widget image(course, chapter, image, zoom) {
+Widget image(cid, chapter, image, zoom) {
   final url =
-      "https://firebasestorage.googleapis.com/v0/b/universe-25a9c.appspot.com/o/Learniverse%2F$course%2F$chapter%2F$image?alt=media";
+      "https://firebasestorage.googleapis.com/v0/b/universe-25a9c.appspot.com/o/Learniverse%2F$cid%2F$chapter%2F$image?alt=media";
 
   return AspectRatio(
     aspectRatio: 16 / 9,

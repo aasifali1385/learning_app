@@ -25,13 +25,11 @@ class Api {
   Dio get dio => _dio;
 
   ////////////////////////////////////////////
-
   Future<dynamic> load(file) async {
-
-    print('https://universe-25a9c.web.app/$file');
+    print(file);
 
     try {
-      return await _dio.get(file);
+      return await _dio.get("http://192.168.137.1:8080/$file");
     } on DioException catch (e) {
       return e.response;
     }
