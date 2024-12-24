@@ -1,14 +1,16 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import '../Api.dart';
 import '../component.dart';
 
 class Content extends StatefulWidget {
-  final dynamic colors, content, entry, selectedIndex, zoom;
+  final dynamic colors, cid, entry, selectedIndex, zoom;
 
   const Content(
       {super.key,
       required this.colors,
-      required this.content,
+      required this.cid,
       required this.entry,
       required this.selectedIndex,
       required this.zoom});
@@ -26,12 +28,14 @@ class _ContentState extends State<Content> {
   void initState() {
     super.initState();
     init();
+
+    Timer.periodic(const Duration(seconds: 3), (count) {
+      init();
+    });
   }
 
   void init() async {
-
-    final res = await Api().load(
-        "${widget.content}/${widget.entry.key}.json".replaceAll(' ', ''));
+    final res = await Api().load("${widget.cid}/${widget.entry.key}.json".replaceAll(' ', ''));
     list = res.data;
 
     setState(() {
@@ -79,9 +83,7 @@ class _ContentState extends State<Content> {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 22,
-                            fontWeight: FontWeight.w500),
+                            color: Colors.white, fontSize: 22, fontWeight: FontWeight.w500),
                       ),
                     ],
                   ),
@@ -94,8 +96,7 @@ class _ContentState extends State<Content> {
                     elevation: 4,
                     color: Colors.white,
                     shape: const RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.vertical(top: Radius.circular(20)),
+                      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
                     ),
                     child: isLoading
                         ? Center(
@@ -119,15 +120,13 @@ class _ContentState extends State<Content> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     TabBar(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 12),
+                                      // padding: const EdgeInsets.symmetric(vertical: 12),
+                                      // indicatorPadding: const EdgeInsets.symmetric(vertical: -6),
+                                      labelPadding: const EdgeInsets.fromLTRB(10, 10, 10, 6),
                                       dividerHeight: 0,
                                       indicatorColor: widget.colors[1],
                                       isScrollable: true,
-                                      indicatorPadding:
-                                          const EdgeInsets.symmetric(
-                                        vertical: -6,
-                                      ),
+
                                       tabs: [
                                         // for (var item in widget.entry.value)
                                         for (var i = 0; i < list.length; i++)
@@ -143,12 +142,8 @@ class _ContentState extends State<Content> {
                                           for (var doc in list)
                                             contentList(
                                                 doc,
-                                                widget.content
-                                                    .toString()
-                                                    .replaceAll(" ", ""),
-                                                widget.entry.key
-                                                    .toString()
-                                                    .replaceAll(" ", ""),
+                                                widget.cid.toString().replaceAll(" ", ""),
+                                                widget.entry.key.toString().replaceAll(" ", ""),
                                                 widget.zoom)
                                         ],
                                       ),

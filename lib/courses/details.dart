@@ -180,7 +180,8 @@ class _DetailsState extends State<Details> {
                                                 MaterialPageRoute(
                                                   builder: (context) => Content(
                                                       colors: widget.colors,
-                                                      content: widget.course.id,
+                                                      // courseName: widget.course['name'],
+                                                      cid: widget.course.id,
                                                       entry: entries[index],
                                                       // content: entries,
                                                       selectedIndex: data.key,
