@@ -26,8 +26,10 @@ Widget courseListItem(QueryDocumentSnapshot course) {
         ),
       ),
 
-      if (course.data().toString().contains('image')) const SizedBox(height: 20),
-      if (course.data().toString().contains('image')) Image.network(course['image']),
+      if (course.data().toString().contains('image'))
+        const SizedBox(height: 20),
+      if (course.data().toString().contains('image'))
+        Image.network(course['image']),
       ////////////////
     ],
   );
@@ -71,8 +73,7 @@ Widget topic(topic, index, cid, chapter, zoom) {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (index != 0) const Divider(),
-        if (topic['image'] != null)
-          image(cid.toString().replaceFirst("Swing", "Singh"), chapter, topic['image'], zoom),
+        if (topic['image'] != null) image(cid, chapter, topic['image'], zoom),
         if (topic['title'] != null) title(topic['title']),
         if (topic['desc'] != null) desc(topic['desc']),
       ],
@@ -110,11 +111,13 @@ Widget descText(data) {
   final line = data.toString().split(":");
 
   if (line.length == 1) {
-    return Text(line[0], textAlign: TextAlign.justify, style: const TextStyle(fontSize: 16));
+    return Text(line[0],
+        textAlign: TextAlign.justify, style: const TextStyle(fontSize: 16));
   }
 
   if (line[0].length > 99) {
-    return Text(data, textAlign: TextAlign.justify, style: const TextStyle(fontSize: 16));
+    return Text(data,
+        textAlign: TextAlign.justify, style: const TextStyle(fontSize: 16));
   }
 
   return RichText(
@@ -123,10 +126,14 @@ Widget descText(data) {
       children: [
         TextSpan(
           text: "${line[0]}:",
-          style: TextStyle(color: Colors.grey[900], fontSize: 17, fontWeight: FontWeight.bold),
+          style: TextStyle(
+              color: Colors.grey[900],
+              fontSize: 17,
+              fontWeight: FontWeight.bold),
         ),
         for (final co in line.sublist(1, line.length))
-          TextSpan(text: co, style: TextStyle(color: Colors.grey[800], fontSize: 16))
+          TextSpan(
+              text: co, style: TextStyle(color: Colors.grey[800], fontSize: 16))
       ],
     ),
   );

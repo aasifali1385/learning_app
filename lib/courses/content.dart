@@ -35,7 +35,8 @@ class _ContentState extends State<Content> {
   }
 
   void init() async {
-    final res = await Api().load("${widget.cid}/${widget.entry.key}.json".replaceAll(' ', ''));
+    final res = await Api()
+        .load("${widget.cid}/${widget.entry.key}.json".replaceAll(' ', ''));
     list = res.data;
 
     setState(() {
@@ -83,7 +84,9 @@ class _ContentState extends State<Content> {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
-                            color: Colors.white, fontSize: 22, fontWeight: FontWeight.w500),
+                            color: Colors.white,
+                            fontSize: 22,
+                            fontWeight: FontWeight.w500),
                       ),
                     ],
                   ),
@@ -96,7 +99,8 @@ class _ContentState extends State<Content> {
                     elevation: 4,
                     color: Colors.white,
                     shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(20)),
                     ),
                     child: isLoading
                         ? Center(
@@ -120,9 +124,10 @@ class _ContentState extends State<Content> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     TabBar(
-                                      // padding: const EdgeInsets.symmetric(vertical: 12),
+                                      // padding: const EdgeInsets.only(bottom: 4),
                                       // indicatorPadding: const EdgeInsets.symmetric(vertical: -6),
-                                      labelPadding: const EdgeInsets.fromLTRB(10, 10, 10, 6),
+                                      labelPadding: const EdgeInsets.fromLTRB(
+                                          10, 10, 10, 8),
                                       dividerHeight: 0,
                                       indicatorColor: widget.colors[1],
                                       isScrollable: true,
@@ -142,8 +147,12 @@ class _ContentState extends State<Content> {
                                           for (var doc in list)
                                             contentList(
                                                 doc,
-                                                widget.cid.toString().replaceAll(" ", ""),
-                                                widget.entry.key.toString().replaceAll(" ", ""),
+                                                widget.cid
+                                                    .toString()
+                                                    .replaceAll(" ", ""),
+                                                widget.entry.key
+                                                    .toString()
+                                                    .replaceAll(" ", ""),
                                                 widget.zoom)
                                         ],
                                       ),
