@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 Widget courseListItem(QueryDocumentSnapshot course) {
   return Column(
@@ -26,10 +27,8 @@ Widget courseListItem(QueryDocumentSnapshot course) {
         ),
       ),
 
-      if (course.data().toString().contains('image'))
-        const SizedBox(height: 20),
-      if (course.data().toString().contains('image'))
-        Image.network(course['image']),
+      if (course.data().toString().contains('image')) const SizedBox(height: 20),
+      if (course.data().toString().contains('image')) Image.network(course['image']),
       ////////////////
     ],
   );
@@ -51,17 +50,22 @@ Widget contentListFireStore(QueryDocumentSnapshot doc, zoom) {
   );
 }
 
-Widget contentList(list, cid, chapter, zoom) {
+Widget contentList(
+  list,
+  cid,
+  chapter,
+  zoom,
+) {
   return ListView.builder(
     padding: const EdgeInsets.fromLTRB(8, 8, 8, 30),
     itemCount: list.length,
     itemBuilder: (BuildContext context, int index) {
-      return topic(list[index], index, cid, chapter, zoom);
+      return topic(list[index], index, cid, chapter, zoom, context);
     },
   );
 }
 
-Widget topic(topic, index, cid, chapter, zoom) {
+Widget topic(topic, index, cid, chapter, zoom, context) {
   return Container(
     // decoration: BoxDecoration(
     // color: Colors.grey[100],
@@ -75,7 +79,7 @@ Widget topic(topic, index, cid, chapter, zoom) {
         if (index != 0) const Divider(),
         if (topic['image'] != null) image(cid, chapter, topic['image'], zoom),
         if (topic['title'] != null) title(topic['title']),
-        if (topic['desc'] != null) desc(topic['desc']),
+        if (topic['desc'] != null) desc(topic['desc'], context),
       ],
     ),
   );
@@ -92,12 +96,12 @@ Widget title(title) {
   );
 }
 
-Widget desc(desc) {
+Widget desc(desc, context) {
   final lines = desc.toString().split("\n");
 
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
-    children: [for (var data in lines) descText(data)],
+    children: [for (var data in lines) descText(data, context)],
   );
 
   return Text(
@@ -107,33 +111,28 @@ Widget desc(desc) {
   );
 }
 
-Widget descText(data) {
+Widget descText(data, context) {
   final line = data.toString().split(":");
 
   if (line.length == 1) {
-    return Text(line[0],
-        textAlign: TextAlign.justify, style: const TextStyle(fontSize: 16));
+    return Text(line[0], textAlign: TextAlign.justify, style: const TextStyle(fontSize: 16));
   }
 
   if (line[0].length > 99) {
-    return Text(data,
-        textAlign: TextAlign.justify, style: const TextStyle(fontSize: 16));
+    return Text(data, textAlign: TextAlign.justify, style: const TextStyle(fontSize: 16));
   }
 
   return RichText(
     textAlign: TextAlign.justify,
     text: TextSpan(
+      style: DefaultTextStyle.of(context).style,
       children: [
         TextSpan(
           text: "${line[0]}:",
-          style: TextStyle(
-              color: Colors.grey[900],
-              fontSize: 17,
-              fontWeight: FontWeight.bold),
+          style: TextStyle(color: Colors.grey[900], fontSize: 17, fontWeight: FontWeight.bold),
         ),
         for (final co in line.sublist(1, line.length))
-          TextSpan(
-              text: co, style: TextStyle(color: Colors.grey[800], fontSize: 16))
+          TextSpan(text: co, style: TextStyle(color: Colors.grey[800], fontSize: 16))
       ],
     ),
   );

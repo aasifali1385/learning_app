@@ -28,8 +28,8 @@ class Api {
   Future<dynamic> load(file) async {
     print(file);
     try {
-      // return await _dio.get("http://192.168.137.1:8080/$file");
-      return await _dio.get("http://192.168.1.101:8080/$file");
+      return await _dio.get("http://192.168.137.1:8080/$file");
+      // return await _dio.get("http://192.168.1.101:8080/$file");
     } on DioException catch (e) {
       return e.response;
     }
