@@ -145,8 +145,8 @@ Widget descText(data, context) {
 }
 
 Widget image(cid, chapter, image, zoom) {
-  final url =
-      "https://firebasestorage.googleapis.com/v0/b/universe-25a9c.appspot.com/o/Learniverse%2F$cid%2F$chapter%2F$image?alt=media";
+  var url = "https://firebasestorage.googleapis.com/v0/b/universe-25a9c.appspot.com/o/Learniverse%2F$cid%2F$chapter%2F$image?alt=media";
+  url = "http://192.168.1.104:8080/$cid/$chapter/$image";
 
   return AspectRatio(
     aspectRatio: 16 / 9,
