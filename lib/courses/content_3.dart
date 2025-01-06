@@ -42,12 +42,10 @@ class _ContentState extends State<Content> {
   }
 
   void init() async {
-    final key = widget.entry['key'].isEmpty
-        ? "${widget.cid}/${widget.entry['title']}.json"
-        : widget.entry['key'];
+    var res = await Api().load("${widget.cid}/${widget.entry.key}.json".replaceAll(' ', ''));
 
-    var res = await Api().load("$key".replaceAll(' ', ''));
     list = res.data;
+
     setState(() {
       isLoading = false;
     });
@@ -89,14 +87,11 @@ class _ContentState extends State<Content> {
                       ),
                       const SizedBox(width: 10),
                       Text(
-                        widget.entry['title'],
+                        widget.entry.key,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 22,
-                          fontWeight: FontWeight.w500,
-                        ),
+                            color: Colors.white, fontSize: 22, fontWeight: FontWeight.w500),
                       ),
                     ],
                   ),
@@ -142,10 +137,9 @@ class _ContentState extends State<Content> {
 
                                       tabs: [
                                         // for (var item in widget.entry.value)
-
                                         for (var i = 0; i < list.length; i++)
-                                          Text(widget.entry['lessons'].length > i
-                                              ? widget.entry['lessons'][i]
+                                          Text(widget.entry.value.length > i
+                                              ? widget.entry.value[i]
                                               : "Undefined")
                                       ],
                                     ),
@@ -157,7 +151,7 @@ class _ContentState extends State<Content> {
                                             contentList(
                                                 doc,
                                                 widget.cid.toString().replaceAll(" ", ""),
-                                                widget.entry['lessons'].toString().replaceAll(" ", ""),
+                                                widget.entry.key.toString().replaceAll(" ", ""),
                                                 widget.zoom)
                                         ],
                                       ),
