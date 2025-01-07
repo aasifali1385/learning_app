@@ -26,12 +26,12 @@ class Api {
 
   ////////////////////////////////////////////
   Future<dynamic> load(file) async {
-    const base = "http://192.168.88.22:8080/";
+    // const base = "http://192.168.88.22:8080/";
+    const base = "http://192.168.1.102:8080/";
 
     print(base + file);
     try {
-      return await _dio.get(base + file);
-      // return await _dio.get("http://192.168.1.104:8080/$file");
+      return await _dio.get(base + file.replaceAll(' ', ''));
     } on DioException catch (e) {
       return e.response;
     }

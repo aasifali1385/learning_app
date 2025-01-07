@@ -42,11 +42,11 @@ class _ContentState extends State<Content> {
   }
 
   void init() async {
-    final key = widget.entry['key'].isEmpty
-        ? "${widget.cid}/${widget.entry['title']}.json"
-        : widget.entry['key'];
+    final key = widget.entry['key'].isNotEmpty
+        ? widget.entry['key']
+        : "${widget.cid}/${widget.entry['title']}.json";
 
-    var res = await Api().load("$key".replaceAll(' ', ''));
+    var res = await Api().load(key);
     list = res.data;
     setState(() {
       isLoading = false;
@@ -109,7 +109,8 @@ class _ContentState extends State<Content> {
                     elevation: 4,
                     color: Colors.white,
                     shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(20)),
                     ),
                     child: isLoading
                         ? Center(
@@ -135,7 +136,8 @@ class _ContentState extends State<Content> {
                                     TabBar(
                                       // padding: const EdgeInsets.only(bottom: 4),
                                       // indicatorPadding: const EdgeInsets.symmetric(vertical: -6),
-                                      labelPadding: const EdgeInsets.fromLTRB(10, 10, 10, 8),
+                                      labelPadding: const EdgeInsets.fromLTRB(
+                                          10, 10, 10, 8),
                                       dividerHeight: 0,
                                       indicatorColor: widget.colors[1],
                                       isScrollable: true,
@@ -144,9 +146,10 @@ class _ContentState extends State<Content> {
                                         // for (var item in widget.entry.value)
 
                                         for (var i = 0; i < list.length; i++)
-                                          Text(widget.entry['lessons'].length > i
-                                              ? widget.entry['lessons'][i]
-                                              : "Undefined")
+                                          Text(
+                                              widget.entry['lessons'].length > i
+                                                  ? widget.entry['lessons'][i]
+                                                  : "Undefined")
                                       ],
                                     ),
 
@@ -156,8 +159,12 @@ class _ContentState extends State<Content> {
                                           for (var doc in list)
                                             contentList(
                                                 doc,
-                                                widget.cid.toString().replaceAll(" ", ""),
-                                                widget.entry['lessons'].toString().replaceAll(" ", ""),
+                                                widget.cid
+                                                    .toString()
+                                                    .replaceAll(" ", ""),
+                                                widget.entry['title']
+                                                    .toString()
+                                                    .replaceAll(" ", ""),
                                                 widget.zoom)
                                         ],
                                       ),

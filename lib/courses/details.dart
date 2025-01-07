@@ -25,10 +25,7 @@ class _DetailsState extends State<Details> {
 
   void _getIndex() async {
     final res = await Api().load("${widget.course.id}.json");
-
-    print("res=>$res");
     entries = res.data;
-
     setState(() {
       isLoading = false;
     });
