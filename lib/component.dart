@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 Widget courseListItem(QueryDocumentSnapshot course) {
   return Column(
@@ -9,11 +8,7 @@ Widget courseListItem(QueryDocumentSnapshot course) {
       Text(
         course['name'],
         style: const TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.bold,
-          fontSize: 18,
-          // fontSize: cons.maxWidth / 10,
-        ),
+            color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
       ),
       const SizedBox(height: 8),
       Text(
@@ -27,8 +22,10 @@ Widget courseListItem(QueryDocumentSnapshot course) {
         ),
       ),
 
-      if (course.data().toString().contains('image')) const SizedBox(height: 20),
-      if (course.data().toString().contains('image')) Image.network(course['image']),
+      if (course.data().toString().contains('image'))
+        const SizedBox(height: 20),
+      if (course.data().toString().contains('image'))
+        Image.network(course['image']),
       ////////////////
     ],
   );
@@ -47,41 +44,6 @@ Widget contentListFireStore(QueryDocumentSnapshot doc, zoom) {
       return null;
       // return topic(entries[index].value, index,  zoom);
     },
-  );
-}
-
-Widget contentList(
-  list,
-  cid,
-  chapter,
-  zoom,
-) {
-  return ListView.builder(
-    padding: const EdgeInsets.fromLTRB(8, 8, 8, 30),
-    itemCount: list.length,
-    itemBuilder: (BuildContext context, int index) {
-      return topic(list[index], index, cid, chapter, zoom, context);
-    },
-  );
-}
-
-Widget topic(topic, index, cid, chapter, zoom, context) {
-  return Container(
-    // decoration: BoxDecoration(
-    // color: Colors.grey[100],
-    // borderRadius: BorderRadius.circular(10),
-    // ),
-    // margin: const EdgeInsets.all(4),
-    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        if (index != 0) const Divider(),
-        if (topic['image'] != null) image(cid, chapter, topic['image'], zoom),
-        if (topic['title'] != null) title(topic['title']),
-        if (topic['desc'] != null) desc(topic['desc'], context),
-      ],
-    ),
   );
 }
 
@@ -115,11 +77,13 @@ Widget descText(data, context) {
   final line = data.toString().split(":");
 
   if (line.length == 1) {
-    return Text(line[0], textAlign: TextAlign.justify, style: const TextStyle(fontSize: 16));
+    return Text(line[0],
+        textAlign: TextAlign.justify, style: const TextStyle(fontSize: 16));
   }
 
   if (line[0].length > 99) {
-    return Text(data, textAlign: TextAlign.justify, style: const TextStyle(fontSize: 16));
+    return Text(data,
+        textAlign: TextAlign.justify, style: const TextStyle(fontSize: 16));
   }
 
   return RichText(
@@ -129,10 +93,14 @@ Widget descText(data, context) {
       children: [
         TextSpan(
           text: "${line[0]}:",
-          style: TextStyle(color: Colors.grey[900], fontSize: 17, fontWeight: FontWeight.bold),
+          style: TextStyle(
+              color: Colors.grey[900],
+              fontSize: 17,
+              fontWeight: FontWeight.bold),
         ),
         for (final co in line.sublist(1, line.length))
-          TextSpan(text: co, style: TextStyle(color: Colors.grey[800], fontSize: 16))
+          TextSpan(
+              text: co, style: TextStyle(color: Colors.grey[800], fontSize: 16))
       ],
     ),
   );
@@ -144,14 +112,11 @@ Widget descText(data, context) {
   );
 }
 
-Widget image(cid, chapter, image, zoom) {
+Widget image(cid, image, zoom) {
 
-  print(cid);
-  print(chapter);
-  print(image);
-
-  var url = "https://firebasestorage.googleapis.com/v0/b/universe-25a9c.appspot.com/o/Learniverse%2F$cid%2F$chapter%2F$image?alt=media";
-  url = "http://192.168.1.102:8080/$cid/$chapter/$image";
+  var url =
+      "https://firebasestorage.googleapis.com/v0/b/universe-25a9c.appspot.com/o/Learniverse%2F$cid%2F$image?alt=media";
+  url = "http://192.168.38.152:8080/images/$cid/$image";
   // url = "http://192.168.88.22:8080/$cid/$chapter/$image";
 
   return AspectRatio(

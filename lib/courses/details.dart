@@ -18,18 +18,9 @@ class _DetailsState extends State<Details> {
 
   // List<QueryDocumentSnapshot> docs = [];
   // bool isLoading = true;
-
   // List<MapEntry<String, dynamic>> entries = [];
   List<dynamic> entries = [];
   bool isLoading = true;
-
-  void _getIndex() async {
-    final res = await Api().load("${widget.course.id}.json");
-    entries = res.data;
-    setState(() {
-      isLoading = false;
-    });
-  }
 
   @override
   void initState() {
@@ -39,6 +30,16 @@ class _DetailsState extends State<Details> {
     //   entries = (widget.course['chapters'] as Map<String, dynamic>).entries.toList();
     //   entries.sort((a, b) => a.key.compareTo(b.key));
     // }
+  }
+
+  void _getIndex() async {
+    final res = await Api().load("${widget.course.id}/index.json");
+
+    if (res.toString().isNotEmpty) entries = res.data;
+
+    setState(() {
+      isLoading = false;
+    });
   }
 
   @override
@@ -84,7 +85,9 @@ class _DetailsState extends State<Details> {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
-                                color: Colors.white, fontSize: 22, fontWeight: FontWeight.w500),
+                                color: Colors.white,
+                                fontSize: 22,
+                                fontWeight: FontWeight.w500),
                           ),
                         ],
                       ),
@@ -95,7 +98,8 @@ class _DetailsState extends State<Details> {
                           maxLines: 4,
                           textAlign: TextAlign.justify,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(color: Colors.white, fontSize: 16),
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 16),
                         ),
                       )
                     ],
@@ -109,7 +113,8 @@ class _DetailsState extends State<Details> {
                       elevation: 4,
                       color: Colors.white,
                       shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(20)),
                       ),
                       child: isLoading
                           ? Center(
@@ -141,13 +146,16 @@ class _DetailsState extends State<Details> {
                                       child: ExpansionTile(
                                         initiallyExpanded: index == 0,
                                         shape: const RoundedRectangleBorder(),
-                                        collapsedShape: const RoundedRectangleBorder(),
+                                        collapsedShape:
+                                            const RoundedRectangleBorder(),
                                         // title: Text(docs[index].id),
                                         // title: Text(entries[index].key),
                                         title: Text(entries[index]['title']),
 
-                                        expandedCrossAxisAlignment: CrossAxisAlignment.stretch,
-                                        childrenPadding: const EdgeInsets.only(bottom: 6),
+                                        expandedCrossAxisAlignment:
+                                            CrossAxisAlignment.stretch,
+                                        childrenPadding:
+                                            const EdgeInsets.only(bottom: 6),
 
                                         children: (entries[index]['lessons'] as List<dynamic>)
                                             .asMap()
@@ -163,15 +171,21 @@ class _DetailsState extends State<Details> {
                                                       cid: widget.course.id,
                                                       entry: entries[index],
                                                       selectedIndex: data.key,
-                                                      zoom: widget.course['zoom']),
+                                                      zoom: widget
+                                                          .course['zoom']),
                                                 ),
                                               );
                                             },
                                             child: Container(
-                                              margin: const EdgeInsets.symmetric(vertical: 2),
-                                              padding: const EdgeInsets.fromLTRB(40, 6, 10, 6),
-                                              child:
-                                                  Text(data.value, style: const TextStyle(fontSize: 16)),
+                                              margin:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 2),
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                      40, 6, 10, 6),
+                                              child: Text(data.value,
+                                                  style: const TextStyle(
+                                                      fontSize: 16)),
                                             ),
                                           );
                                         }).toList(),

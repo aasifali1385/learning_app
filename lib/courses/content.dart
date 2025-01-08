@@ -115,8 +115,7 @@ class _ContentState extends State<Content> {
                     child: isLoading
                         ? Center(
                             child: CircularProgressIndicator(
-                            color: widget.colors[1],
-                          ))
+                                color: widget.colors[1]))
                         : list.isEmpty
                             ? Padding(
                                 padding: const EdgeInsets.all(40),
@@ -144,7 +143,6 @@ class _ContentState extends State<Content> {
 
                                       tabs: [
                                         // for (var item in widget.entry.value)
-
                                         for (var i = 0; i < list.length; i++)
                                           Text(
                                               widget.entry['lessons'].length > i
@@ -159,17 +157,14 @@ class _ContentState extends State<Content> {
                                           for (var doc in list)
                                             contentList(
                                                 doc,
-                                                widget.cid
-                                                    .toString()
-                                                    .replaceAll(" ", ""),
-                                                widget.entry['title']
-                                                    .toString()
-                                                    .replaceAll(" ", ""),
+                                                widget.entry['key'].isNotEmpty
+                                                    ? widget.entry['key'].toString().split('/')[0]
+                                                    : widget.cid,
+                                                // widget.entry['title'].toString().replaceAll(" ", ""),
                                                 widget.zoom)
                                         ],
                                       ),
                                     ),
-
                                     //////////////////////////
                                   ],
                                 ),
@@ -186,4 +181,26 @@ class _ContentState extends State<Content> {
   }
 
 /////////////////////////////
+}
+
+Widget contentList(list, cid, zoom) {
+  return ListView.builder(
+    padding: const EdgeInsets.fromLTRB(8, 8, 8, 30),
+    itemCount: list.length,
+    itemBuilder: (BuildContext context, int index) {
+      final topic = list[index];
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (index != 0) const Divider(),
+            if (topic['image'] != null) image(cid, topic['image'], zoom),
+            if (topic['title'] != null) title(topic['title']),
+            if (topic['desc'] != null) desc(topic['desc'], context),
+          ],
+        ),
+      );
+    },
+  );
 }
