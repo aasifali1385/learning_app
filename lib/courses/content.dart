@@ -190,7 +190,7 @@ Widget contentList(list, cid, zoom) {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (index != 0) const Divider(),
-            if (topic['utitle'] != null) title(topic['utitle']),
+            if (topic['head'] != null) head(topic['head']),
             if (topic['image'] != null) image(cid, topic['image'], zoom),
             if (topic['title'] != null) title(topic['title']),
             if (topic['desc'] != null) desc(topic['desc'], context),

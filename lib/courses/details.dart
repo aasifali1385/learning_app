@@ -157,7 +157,8 @@ class _DetailsState extends State<Details> {
                                         childrenPadding:
                                             const EdgeInsets.only(bottom: 6),
 
-                                        children: (entries[index]['lessons'] as List<dynamic>)
+                                        children: (entries[index]['lessons']
+                                                as List<dynamic>)
                                             .asMap()
                                             .entries
                                             .map((data) {
@@ -171,13 +172,18 @@ class _DetailsState extends State<Details> {
                                                       cid: widget.course.id,
                                                       entry: entries[index],
                                                       selectedIndex: data.key,
-                                                      zoom: widget.course['zoom']),
+                                                      zoom: widget.course
+                                                              .toString()
+                                                              .contains('zoom')
+                                                          ? widget.course['zoom']
+                                                          : 1.0),
                                                 ),
                                               );
                                             },
                                             child: Container(
                                               margin:
-                                                  const EdgeInsets.symmetric(vertical: 2),
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 2),
                                               padding:
                                                   const EdgeInsets.fromLTRB(
                                                       40, 6, 10, 6),
