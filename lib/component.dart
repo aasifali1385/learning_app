@@ -7,8 +7,7 @@ Widget courseListItem(QueryDocumentSnapshot course) {
     children: [
       Text(
         course['name'],
-        style: const TextStyle(
-            color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
+        style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
       ),
       const SizedBox(height: 8),
       Text(
@@ -22,10 +21,8 @@ Widget courseListItem(QueryDocumentSnapshot course) {
         ),
       ),
 
-      if (course.data().toString().contains('image'))
-        const SizedBox(height: 20),
-      if (course.data().toString().contains('image'))
-        Image.network(course['image']),
+      if (course.data().toString().contains('image')) const SizedBox(height: 20),
+      if (course.data().toString().contains('image')) Image.network(course['image']),
       ////////////////
     ],
   );
@@ -77,13 +74,11 @@ Widget descText(data, context) {
   final line = data.toString().split(":");
 
   if (line.length == 1) {
-    return Text(line[0],
-        textAlign: TextAlign.justify, style: const TextStyle(fontSize: 16));
+    return Text(line[0], textAlign: TextAlign.justify, style: const TextStyle(fontSize: 16));
   }
 
   if (line[0].length > 99) {
-    return Text(data,
-        textAlign: TextAlign.justify, style: const TextStyle(fontSize: 16));
+    return Text(data, textAlign: TextAlign.justify, style: const TextStyle(fontSize: 16));
   }
 
   return RichText(
@@ -93,14 +88,10 @@ Widget descText(data, context) {
       children: [
         TextSpan(
           text: "${line[0]}:",
-          style: TextStyle(
-              color: Colors.grey[900],
-              fontSize: 17,
-              fontWeight: FontWeight.bold),
+          style: TextStyle(color: Colors.grey[900], fontSize: 17, fontWeight: FontWeight.bold),
         ),
         for (final co in line.sublist(1, line.length))
-          TextSpan(
-              text: co, style: TextStyle(color: Colors.grey[800], fontSize: 16))
+          TextSpan(text: co, style: TextStyle(color: Colors.grey[800], fontSize: 16))
       ],
     ),
   );
@@ -113,28 +104,46 @@ Widget descText(data, context) {
 }
 
 Widget image(cid, image, zoom) {
+  // var url = "https://firebasestorage.googleapis.com/v0/b/universe-25a9c.appspot.com/o/Learniverse%2F$cid%2F$image?alt=media";
+  var url = "http://192.168.137.1:8080/images/$cid/$image";
 
-  var url =
-      "https://firebasestorage.googleapis.com/v0/b/universe-25a9c.appspot.com/o/Learniverse%2F$cid%2F$image?alt=media";
-  url = "http://192.168.38.152:8080/images/$cid/$image";
-  // url = "http://192.168.88.22:8080/$cid/$chapter/$image";
-
-  return AspectRatio(
-    aspectRatio: 16 / 9,
-    child: Container(
-      clipBehavior: Clip.antiAlias,
-      margin: const EdgeInsets.only(bottom: 4, top: 2),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: Colors.grey[200],
-      ),
-      child: Transform.scale(
+  return Container(
+    clipBehavior: Clip.antiAlias,
+    margin: const EdgeInsets.only(bottom: 4, top: 2),
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(10),
+      color: Colors.grey[200],
+    ),
+    child: Transform.scale(
         scale: zoom,
         child: Image.network(
           url,
-          fit: BoxFit.fill,
-        ),
-      ),
-    ),
+          loadingBuilder: (context, widget, imageChunkEvent) {
+            if (imageChunkEvent == null) return widget;
+            return AspectRatio(aspectRatio: 16 / 9, child: Container(color: Colors.grey[200]));
+          },
+        )),
   );
+}
+
+class Answer extends StatefulWidget {
+  final answer;
+
+  const Answer({super.key, this.answer});
+
+  @override
+  State<Answer> createState() => _AnswerState();
+}
+
+class _AnswerState extends State<Answer> {
+  bool reveal = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return OutlinedButton(
+      onPressed: reveal ? null : () => setState(() => reveal = true),
+      child: Text(reveal ? "Ans: ${widget.answer}" : "Reveal Answer",
+          style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 16)),
+    );
+  }
 }

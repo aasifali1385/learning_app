@@ -109,13 +109,10 @@ class _ContentState extends State<Content> {
                     elevation: 4,
                     color: Colors.white,
                     shape: const RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.vertical(top: Radius.circular(20)),
+                      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
                     ),
                     child: isLoading
-                        ? Center(
-                            child: CircularProgressIndicator(
-                                color: widget.colors[1]))
+                        ? Center(child: CircularProgressIndicator(color: widget.colors[1]))
                         : list.isEmpty
                             ? Padding(
                                 padding: const EdgeInsets.all(40),
@@ -135,8 +132,7 @@ class _ContentState extends State<Content> {
                                     TabBar(
                                       // padding: const EdgeInsets.only(bottom: 4),
                                       // indicatorPadding: const EdgeInsets.symmetric(vertical: -6),
-                                      labelPadding: const EdgeInsets.fromLTRB(
-                                          10, 10, 10, 8),
+                                      labelPadding: const EdgeInsets.fromLTRB(10, 10, 10, 8),
                                       dividerHeight: 0,
                                       indicatorColor: widget.colors[1],
                                       isScrollable: true,
@@ -144,10 +140,9 @@ class _ContentState extends State<Content> {
                                       tabs: [
                                         // for (var item in widget.entry.value)
                                         for (var i = 0; i < list.length; i++)
-                                          Text(
-                                              widget.entry['lessons'].length > i
-                                                  ? widget.entry['lessons'][i]
-                                                  : "Undefined")
+                                          Text(widget.entry['lessons'].length > i
+                                              ? widget.entry['lessons'][i]
+                                              : "Undefined")
                                       ],
                                     ),
 
@@ -195,9 +190,11 @@ Widget contentList(list, cid, zoom) {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (index != 0) const Divider(),
+            if (topic['utitle'] != null) title(topic['utitle']),
             if (topic['image'] != null) image(cid, topic['image'], zoom),
             if (topic['title'] != null) title(topic['title']),
             if (topic['desc'] != null) desc(topic['desc'], context),
+            if (topic['ans'] != null) Answer(answer: topic['ans'])
           ],
         ),
       );
