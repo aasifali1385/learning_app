@@ -27,8 +27,17 @@ class Api {
   ////////////////////////////////////////////
   Future<dynamic> load(file) async {
     const base = "http://192.168.1.101:8080/";
-
-    print(base + file);
+    // print(base + file);
+    try {
+      return await _dio.get(file.replaceAll(' ', ''));
+    } on DioException catch (e) {
+      return e.response;
+    }
+  }
+  ////////////////////////////////////////////
+  Future<dynamic> loadLocal(file) async {
+    const base = "http://192.168.1.101:8080/";
+    // print(base + file);
     try {
       return await _dio.get(base + file.replaceAll(' ', ''));
     } on DioException catch (e) {
@@ -38,3 +47,8 @@ class Api {
 
 ////////////////////////
 }
+
+// Green ff1D384D - ff007442
+// Blue ff02318C - ff1A54C6
+// Black ff000000 - ff535353
+//

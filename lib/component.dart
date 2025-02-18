@@ -124,8 +124,8 @@ Widget descText(data, context) {
 }
 
 Widget image(cid, image, zoom) {
-  // var url = "https://firebasestorage.googleapis.com/v0/b/universe-25a9c.appspot.com/o/Learniverse%2F$cid%2F$image?alt=media";
-  var url = "http://192.168.1.101:8080/images/$cid/$image";
+  var url = "https://firebasestorage.googleapis.com/v0/b/universe-25a9c.appspot.com/o/Learniverse%2F$cid%2F$image?alt=media";
+  // var url = "http://192.168.1.101:8080/images/$cid/$image";
 
   return Container(
     clipBehavior: Clip.antiAlias,
@@ -139,6 +139,10 @@ Widget image(cid, image, zoom) {
         scale: zoom,
         child: Image.network(
           url,
+          errorBuilder: (context, obj, stack) {
+            return Image.network(
+                "http://192.168.1.101:8080/images/$cid/$image");
+          },
           loadingBuilder: (context, widget, imageChunkEvent) {
             if (imageChunkEvent == null) return widget;
             return AspectRatio(

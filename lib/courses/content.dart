@@ -30,14 +30,14 @@ class _ContentState extends State<Content> {
   void initState() {
     super.initState();
     init();
-    timer = Timer.periodic(const Duration(seconds: 3), (count) {
-      init();
-    });
+    // timer = Timer.periodic(const Duration(seconds: 3), (count) {
+    //   init();
+    // });
   }
 
   @override
   void dispose() {
-    timer.cancel();
+    // timer.cancel();
     super.dispose();
   }
 
@@ -47,6 +47,11 @@ class _ContentState extends State<Content> {
         : "${widget.cid}/${widget.entry['title']}.json";
 
     var res = await Api().load(key);
+
+    if (res.toString().startsWith('<!DOCTYPE html>')) {
+      res = await Api().loadLocal(key);
+    }
+
     list = res.data;
     setState(() {
       isLoading = false;

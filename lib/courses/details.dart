@@ -33,7 +33,11 @@ class _DetailsState extends State<Details> {
   }
 
   void _getIndex() async {
-    final res = await Api().load("${widget.course.id}/index.json");
+    var res = await Api().load("${widget.course.id}/index.json");
+
+    if (res.toString().startsWith('<!DOCTYPE html>')) {
+      res = await Api().loadLocal("${widget.course.id}/index.json");
+    }
 
     if (res.toString().isNotEmpty) entries = res.data;
 
@@ -175,7 +179,8 @@ class _DetailsState extends State<Details> {
                                                       zoom: widget.course
                                                               .toString()
                                                               .contains('zoom')
-                                                          ? widget.course['zoom']
+                                                          ? widget
+                                                              .course['zoom']
                                                           : 1.0),
                                                 ),
                                               );
